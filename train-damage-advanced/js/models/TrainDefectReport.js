@@ -1,5 +1,5 @@
 // Always subclass AIQ.Spine.Model for App models
-TD.TrainDefectReport = AIQ.Spine.Model.sub();
+TD.TrainDefectReport = AIQ.app.model.sub();
 
 // Configure Name (1:1 mapping of Document type) and attributes (Document format)
 TD.TrainDefectReport.configure("TD.TrainDefectReport",

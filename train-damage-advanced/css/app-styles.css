@@ -125,9 +125,9 @@ footer:after {
   clear: both; }
 footer.fixed {
   position: absolute;
-  left: 0;
   bottom: 0;
-  right: 0; }
+  left: 0;
+  width: 100%; }
 footer > a {
   font-size: 0.75em;
   text-align: center;

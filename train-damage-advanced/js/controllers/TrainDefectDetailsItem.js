@@ -3,7 +3,7 @@
  * Date: 2012-12-10
  **/
 
-AIQ.Spine.Controller.sub({
+AIQ.app.controller.sub({
 
     tag: "section",
 

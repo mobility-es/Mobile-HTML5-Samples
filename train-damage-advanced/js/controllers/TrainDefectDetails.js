@@ -93,7 +93,7 @@ AIQ.Plugin.iScroll.Controller.sub({
         this.oldController = this.itemController;
         var $previousItem = this.$item || $();
 
-        this.itemController = AIQ.Spine.Controller.fromRoute("detailsItem", {
+        this.itemController = AIQ.app.controller.fromRoute("detailsItem", {
             dateTime: this.item.defectDateTime,
             item: this.item
         }).render();

@@ -23,7 +23,7 @@ AIQ.Plugin.iScroll.Controller.sub({
     render: function (params) {
         // Retrieving the temporary report
         if (TD.MyReport) {
-            AIQ.Core.App.setTitle("Train " + TD.MyReport.trainNumber);
+            AIQ.client.setAppTitle("Train " + TD.MyReport.trainNumber);
 
             var train = TD.Train.findByAttribute("trainNumber", TD.MyReport.trainNumber);
             if (train) {
