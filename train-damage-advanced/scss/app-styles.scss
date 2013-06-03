@@ -1,33 +1,18 @@
 /* Import framework styles */
-@import "../aiq/scss/css3";
-@import "../aiq/scss/utils";
-/* Import commonly used styles */
-@import "utils";
+@import "../aiq/scss/mixins/css3";
+@import "../aiq/scss/mixins/utils";
+@import "../aiq/scss/variables";
 
 /******************************************************************************
 * Global
 *****************************************************************************/
 
-// Base font-size
-$baseline: 16px;
-
 // Icons
-$greyMagnifier: url('assets/30x24_grey_magnifier.png');
 $blackArrow: url('assets/24x24_black_arrow.png');
 $camera: url('assets/white-camera.png');
 $pictures: url('assets/white-pictures.png');
-$pen: url('assets/white-pen.png');
-$rightArrow: url('assets/white-right-arrow.png');
-$upArrow: url('assets/white-up-arrow.png');
-$upArrowDisabled: url('assets/grey-up-arrow.png');
-$downArrow: url('assets/white-down-arrow.png');
-$downArrowDisabled: url('assets/grey-down-arrow.png');
-$trash: url('assets/white-trash.png');
-$trashDisabled: url('assets/grey-trash.png');
-$cross: url('assets/white-cross.png');
 $pickTrain: url('assets/white-pick-train.png');
 $reportDamage: url('assets/white-report-damage.png');
-$finish: url('assets/white-check.png');
 $curvedLeftArrow: url('assets/white-curved-left-arrow.png');
 $progressBar1of4: url('assets/progress-bar-1of4.png');
 $progressBar2of4: url('assets/progress-bar-2of4.png');
@@ -35,239 +20,39 @@ $progressBar3of4: url('assets/progress-bar-3of4.png');
 $progressBar4of4: url('assets/progress-bar-4of4.png');
 
 // Backgrounds
-$inputBg: url('assets/input-bg.png');
-$whiteBtnBgDefault: url('assets/white-btn-bg-default.png');
-$whiteBtnBgPressed: url('assets/white-btn-bg-pressed.png');
-$blackBtnBgDefault: url('assets/black-btn-bg-default.png');
-$blackBtnBgPressed: url('assets/black-btn-bg-pressed.png');
-$fortyPxListBgDefault: url('assets/40px-list-bg-default.png');
-$fortyPxListBgPressed: url('assets/40px-list-bg-pressed.png');
+$blackBtnBgDefault: url('../aiq/img/black-btn-bg-default.png');
+$blackBtnBgPressed: url('../aiq/img/black-btn-bg-pressed.png');
+$actionBarBtnBgDefault: url('../aiq/img/action-bar-btn-bg-default.png');
+$actionBarBtnBgPressed: url('../aiq/img/action-bar-btn-bg-pressed.png');
 $fiftyPxListBgDefault: url('assets/50px-list-bg-default.png');
 $fiftyPxListBgPressed: url('assets/50px-list-bg-pressed.png');
-$actionBarBtnBgDefault: url('assets/action-bar-btn-bg-default.png');
-$actionBarBtnBgPressed: url('assets/action-bar-btn-bg-pressed.png');
-
-// Expandable list icons
-$collapsedBullet: url('assets/expandable-list/collapsed-bullet.png');
-$expandedBullet: url('assets/expandable-list/expanded-bullet.png');
-$lvl3Bullet: url('assets/expandable-list/lvl3-bullet.png');
-
-// Expandable list bgs
-$lvl1HeadingExpanded: url('assets/expandable-list/lvl1-heading-expanded.png');
-$lvl2Pressed: url('assets/expandable-list/lvl2-pressed.png');
-$middleLvl2Collapsed: url('assets/expandable-list/middle-lvl2-collapsed.png');
-$lastLvl2Collapsed: url('assets/expandable-list/last-lvl2-collapsed.png');
-$lvl2HeadingExpanded: url('assets/expandable-list/lvl2-heading-expanded.png');
-$middleLvl3: url('assets/expandable-list/middle-lvl3.png');
-$bottomLvl3: url('assets/expandable-list/bottom-lvl3.png');
 
 // Cache images used on templates to prevent delays when loading
 #imageCache {
-    background-image: $greyMagnifier,
-        $blackArrow,
+    background-image: $blackArrow,
         $camera,
         $pictures,
-        $pen,
-        $rightArrow,
-        $upArrow,
-        $upArrowDisabled,
-        $downArrow,
-        $downArrowDisabled,
-        $trash,
-        $trashDisabled,
-        $cross,
         $pickTrain,
         $reportDamage,
-        $finish,
         $curvedLeftArrow,
         $progressBar1of4,
         $progressBar2of4,
         $progressBar3of4,
         $progressBar4of4,
-        $inputBg,
-        $whiteBtnBgDefault,
-        $whiteBtnBgPressed,
         $blackBtnBgDefault,
         $blackBtnBgPressed,
-        $fortyPxListBgDefault,
-        $fortyPxListBgPressed,
-        $fiftyPxListBgDefault,
-        $fiftyPxListBgPressed,
         $actionBarBtnBgDefault,
         $actionBarBtnBgPressed,
-        $collapsedBullet,
-        $expandedBullet,
-        $lvl3Bullet,
-        $lvl1HeadingExpanded,
-        $lvl2Pressed,
-        $middleLvl2Collapsed,
-        $lastLvl2Collapsed,
-        $lvl2HeadingExpanded,
-        $middleLvl3,
-        $bottomLvl3;
+        $fiftyPxListBgDefault,
+        $fiftyPxListBgPressed;
 }
 
 // Colours
-$fontLightGreyColor: #999;
-$fontGreyColor: #666;
-$selectedParentBg: #f2f2f2;
 $selectedChildBg: #d9d9d9;
-$widgetBorderColor: #ccc;
 $listItemBorderColor: #e6e6e6;
 
 .AIQ-page {
     background-color: $selectedParentBg;
-}
-
-// Input controls
-$inputBgHeight: -aiq-em(40px, $baseline);
-
-input, textarea {
-    // Override iOS default styles
-    @include border-radius(0);
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-    padding: 0;
-
-    @include placeholder-color($fontLightGreyColor);
-
-    border: 1px solid $widgetBorderColor;
-    background-image: $inputBg;
-    background-repeat: repeat-x;
-    background-size: auto $inputBgHeight;
-}
-
-.search {
-    @include box-sizing(border-box);
-
-    height: $inputBgHeight;
-    width: 100%;
-    padding: 0 1.9em 0 0.2em;
-
-    background-image: $greyMagnifier, $inputBg;
-    background-repeat: no-repeat, repeat-x;
-    background-position: right, 0 0;
-    background-size: -aiq-em(30px, $baseline) -aiq-em(24px, $baseline), auto $inputBgHeight;
-}
-
-$buttonHeight: 40px;
-$buttonIconSize: 24px;
-$blackButtonFontSize: 18px;
-
-// Buttons
-button {
-    // Override browser defaults
-    padding: 0;
-    border: none;
-
-    &.white {
-        $btnHeight: 40px;
-        $fontSize: 12px;
-
-        font-size: -aiq-em($fontSize, $baseline);
-        color: #303030;
-        background-image: $whiteBtnBgDefault;
-        background-repeat: repeat-x;
-        background-size: auto -aiq-em($btnHeight, $fontSize);
-        height: -aiq-em($btnHeight, $fontSize);
-        border: 1px solid $widgetBorderColor;
-
-        &:active,
-        &.active {
-            background-image: $whiteBtnBgPressed;
-        }
-
-        &[disabled] {
-            background: transparent;
-        }
-    }
-
-    &.black {
-        font-size: -aiq-em($blackButtonFontSize, $baseline);
-
-        color: white;
-
-        background-image: $blackBtnBgDefault;
-        background-repeat: repeat-x;
-        background-size: auto -aiq-em($buttonHeight, $blackButtonFontSize);
-
-        height: -aiq-em($buttonHeight, $blackButtonFontSize);
-
-        &:active,
-        &.active {
-            background-image: $blackBtnBgPressed;
-        }
-
-        &.with-left-icon {
-
-            padding-left: -aiq-em($buttonIconSize, $blackButtonFontSize);
-
-            background-repeat: no-repeat, repeat-x;
-            background-size: -aiq-em($buttonIconSize, $blackButtonFontSize), auto -aiq-em($buttonHeight, $blackButtonFontSize);
-
-            $topPositionPx: ($buttonHeight - $buttonIconSize ) / 2;
-            background-position: -aiq-em($topPositionPx, $blackButtonFontSize) -aiq-em($topPositionPx, $blackButtonFontSize), 0 0;
-        }
-
-        // To include the padding in the size
-        @include box-sizing(border-box);
-
-        @include box-shadow(0 0 0.5em #111);
-
-        padding-top: 0.1em;
-    }
-}
-
-// Basic list
-ul {
-    list-style-type: none;
-}
-
-$liHeight: 40px;
-$liFontSize: 19px;
-$liArrowSize: -aiq-em(24px, $liFontSize);
-
-.AIQ-ui-list {
-    > li {
-
-        min-height: -aiq-em($liHeight, $baseline);
-
-        background-color: white;
-
-        // Overrides
-        & + li {
-            border: none;
-        }
-
-        > a {
-            text-decoration: none;
-            font-size: -aiq-em($liFontSize, $baseline);
-
-            // Make the same height as the parent <li>, so that the list item is clickable on its full height
-            min-height: -aiq-em($liHeight, $liFontSize);
-
-            // Override
-            padding-left: 1em;
-
-            // For the padding to be included in the height
-            @include box-sizing(border-box);
-
-            // Because even with "border-box", the border isn't included if "min-height" is set - "height" is required
-            height: -aiq-em($liHeight, $liFontSize);
-
-            background-image: $blackArrow, $fortyPxListBgDefault;
-            background-repeat: no-repeat, repeat-x;
-            background-position: right, 0 0;
-            background-size: $liArrowSize, auto -aiq-em($liHeight, $liFontSize);
-
-            &.active,
-            &.selected {
-                background-image: $blackArrow, $fortyPxListBgPressed;
-                background-repeat: no-repeat, repeat-x;
-                background-position: right, 0 0;
-                background-size: $liArrowSize, auto -aiq-em($liHeight, $liFontSize);
-            }
-        }
-    }
 }
 
 /******************************************************************************
@@ -294,199 +79,45 @@ header {
 /******************************************************************************
 * Footer
 *****************************************************************************/
-$buttonIconSize: 24px;
-
 footer {
-    @include -aiq-clearfix();
+    > a[role="pick-train"] {
+        width: 50%;
 
-    &.fixed {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        right: 0;
-    }
+        background-image: $pickTrain, $actionBarBtnBgDefault;
 
-    > a {
-        $buttonHeight: 50px;
-        $fontSize: 12px;
-        $fontColor: white;
-
-        font-size: -aiq-em($fontSize, $baseline);
-        text-align: center;
-        color: $fontColor;
-
-        // Border
-        $borderWidth: 1px;
-        border-top: $borderWidth solid #505050;
-        border-bottom: $borderWidth solid #1E1E1E;
-        border-right: $borderWidth solid #303030;
-
-        background-repeat: no-repeat, repeat-x;
-        background-size: -aiq-em($buttonIconSize, $fontSize), auto -aiq-em($buttonHeight - 2*$borderWidth, $fontSize);
-        background-position: center 0.25em, 0 0;
-
-        height: -aiq-em($buttonHeight, $fontSize);
-
-        &:hover,
-        &:active {
-            color: $fontColor;
-        }
-
-        &.without-top-icon {
-            background-repeat: repeat-x;
-            background-size: auto -aiq-em($buttonHeight - 2*$borderWidth, $fontSize);
-            background-position: 0 0;
-            background-image: $actionBarBtnBgDefault;
-
-            &:active,
-            &.active {
-                background-image: $actionBarBtnBgPressed;
-            }
-
-            > p {
-                margin-top: 1.4em;
-            }
-        }
-
-        // To include the padding and border in the size
-        @include box-sizing(border-box);
-
-        float: left;
-
-        &.right {
-            float: right;
-        }
-
-        &.disabled {
-            color: $fontGreyColor;
-        }
-
-        > p {
-            margin-top: 2.5em;
+        &:active,
+        &.active {
+            background-image: $pickTrain, $actionBarBtnBgPressed;
         }
     }
-}
 
-a[role] {
-    width: 25%;
+    > a[role="report-damage"] {
+        width: 50%;
 
-    &.disabled {
-        cursor: default;
-    }
-}
+        background-image: $reportDamage, $actionBarBtnBgDefault;
 
-a[role="next"] {
-    background-image: $rightArrow, $actionBarBtnBgDefault;
-
-    &:active,
-    &.active {
-        background-image: $rightArrow, $actionBarBtnBgPressed;
-    }
-}
-
-a[role="previous-item"] {
-    background-image: $upArrow, $actionBarBtnBgDefault;
-
-    &:active,
-    &.active {
-        background-image: $upArrow, $actionBarBtnBgPressed;
+        &:active,
+        &.active {
+            background-image: $reportDamage, $actionBarBtnBgPressed;
+        }
     }
 
-    &.disabled {
-        background-image: $upArrowDisabled, $actionBarBtnBgDefault;
-    }
-}
+    > a[role="take-picture"] {
+        background-image: $camera, $actionBarBtnBgDefault;
 
-a[role="next-item"] {
-    background-image: $downArrow, $actionBarBtnBgDefault;
-
-    &:active,
-    &.active {
-        background-image: $downArrow, $actionBarBtnBgPressed;
+        &:active,
+        &.active {
+            background-image: $camera, $actionBarBtnBgPressed;
+        }
     }
 
-    &.disabled {
-        background-image: $downArrowDisabled, $actionBarBtnBgDefault;
-    }
-}
+    > a[role="pick-picture"] {
+        background-image: $pictures, $actionBarBtnBgDefault;
 
-a[role="modify"] {
-    background-image: $pen, $actionBarBtnBgDefault;
-
-    &:active,
-    &.active {
-        background-image: $pen, $actionBarBtnBgPressed;
-    }
-}
-
-a[role="delete"] {
-    background-image: $trash, $actionBarBtnBgDefault;
-
-    &:active,
-    &.active {
-        background-image: $trash, $actionBarBtnBgPressed;
-    }
-
-    &.disabled {
-        background-image: $trashDisabled, $actionBarBtnBgDefault;
-    }
-}
-
-a[role="cancel"] {
-    background-image: $cross, $actionBarBtnBgDefault;
-
-    &:active,
-    &.active {
-        background-image: $cross, $actionBarBtnBgPressed;
-    }
-}
-
-a[role="finish"] {
-    background-image: $finish, $actionBarBtnBgDefault;
-
-    &:active,
-    &.active {
-        background-image: $finish, $actionBarBtnBgPressed;
-    }
-}
-
-a[role="pick-train"] {
-    width: 50%;
-
-    background-image: $pickTrain, $actionBarBtnBgDefault;
-
-    &:active,
-    &.active {
-        background-image: $pickTrain, $actionBarBtnBgPressed;
-    }
-}
-
-a[role="report-damage"] {
-    width: 50%;
-
-    background-image: $reportDamage, $actionBarBtnBgDefault;
-
-    &:active,
-    &.active {
-        background-image: $reportDamage, $actionBarBtnBgPressed;
-    }
-}
-
-a[role="take-picture"] {
-    background-image: $camera, $actionBarBtnBgDefault;
-
-    &:active,
-    &.active {
-        background-image: $camera, $actionBarBtnBgPressed;
-    }
-}
-
-a[role="pick-picture"] {
-    background-image: $pictures, $actionBarBtnBgDefault;
-
-    &:active,
-    &.active {
-        background-image: $pictures, $actionBarBtnBgPressed;
+        &:active,
+        &.active {
+            background-image: $pictures, $actionBarBtnBgPressed;
+        }
     }
 }
 
@@ -566,6 +197,10 @@ $homeHeaderHeight: 3.5em;
             display: block;
         }
     }
+}
+
+#query-input {
+    width: 100%;
 }
 
 #home {
@@ -829,102 +464,6 @@ $reportDamageHeaderHeight: 50px;
     top: -aiq-em($reportDamageHeaderHeight, $baseline);
 
     clear: both;
-
-    .AIQ-ui-list {
-        @include box-sizing(border-box);
-
-        ul {
-            padding: 0;
-        }
-
-        a {
-            padding-top: 0.4em;
-        }
-    }
-
-    $collapsedExandedBulletSize: -aiq-em(24px, $liFontSize);
-
-    .collapsed,
-    .expanded {
-        > a {
-            background-image: $collapsedBullet, $fortyPxListBgDefault;
-            background-repeat: no-repeat, repeat-x;
-            background-position: 0.3em 0.4em, 0 0;
-            background-size: $collapsedExandedBulletSize, auto -aiq-em($liHeight, $liFontSize);
-
-            &.active,
-            &.selected {
-                background-image: $collapsedBullet, $fortyPxListBgPressed;
-            }
-
-            padding-left: 1.8em;
-        }
-    }
-
-    .expanded {
-        > a {
-            background-image: $expandedBullet, $lvl1HeadingExpanded;
-        }
-    }
-
-    .lvl2 {
-        &.collapsed,
-        &.expanded {
-            > a {
-                padding-left: 2.6em;
-
-                background-image: $collapsedBullet, $middleLvl2Collapsed;
-                background-position: 1.1em 0.4em, 0 0;
-
-                &.active,
-                &.selected {
-                    background-image: $collapsedBullet, $lvl2Pressed;
-                }
-            }
-        }
-
-        &.expanded {
-            > a {
-                background-image: $expandedBullet, $lvl2HeadingExpanded;
-            }
-        }
-
-        &:last-child.collapsed {
-            > a {
-                background-image: $collapsedBullet, $lastLvl2Collapsed;
-                background-repeat: no-repeat, repeat-x;
-                background-position: 1.1em 0.4em, 0 0;
-                background-size: $collapsedExandedBulletSize, auto -aiq-em($liHeight, $liFontSize);
-            }
-        }
-    }
-
-    .lvl3 {
-        $lvl3BulletSize: -aiq-em(4px, $liFontSize);
-
-        > a {
-            background-image: $lvl3Bullet, $blackArrow, $middleLvl3;
-            background-repeat: no-repeat, no-repeat, repeat-x;
-            background-position: 2.8em 0.95em, right, 0 0;
-            background-size: $lvl3BulletSize, $liArrowSize, auto -aiq-em($liHeight, $liFontSize);
-
-            &.active,
-            &.selected {
-                background-image: $lvl3Bullet, $blackArrow, $fortyPxListBgPressed;
-            }
-
-            padding-left: 3.4em;
-        }
-
-        &:last-child {
-            > a {
-                background-image: $lvl3Bullet, $blackArrow, $bottomLvl3;
-                background-repeat: no-repeat, no-repeat, repeat-x;
-                background-position: 2.8em 0.95em, right, 0 0;
-                background-size: $lvl3BulletSize, $liArrowSize, auto -aiq-em($liHeight, $liFontSize);
-            }
-        }
-    }
 }
 
 /****************************************************************************

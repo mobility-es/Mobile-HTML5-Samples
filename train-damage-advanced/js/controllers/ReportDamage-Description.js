@@ -1,7 +1,7 @@
 ﻿/**
  * Report damage view (step 3 - Damage description)
  */
-AIQ.Spine.Controller.sub({
+aiq.app.Controller.sub({
     events: {
         'click a[role="next"]': 'onNext'
     },

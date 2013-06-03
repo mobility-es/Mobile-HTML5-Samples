@@ -1,77 +1,64 @@
 <!doctype html>
+<!-- Modernizr will replace the "no-js" class if JavaScript is enabled in the browser -->
 <html class="no-js" lang="en">
 <head>
     <meta charset="utf-8">
 
-    <meta name="description" content="TKAB Train Damage">
-
-    <!-- Disable auto phone numbers recognition which causes ghost clicks -->
-    <meta name="format-detection" content="telephone=no" />
+    <meta name="description" content="Example application">
 
     <!-- Mobile viewport optimization h5bp.com/ad -->
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 
+    <!-- Disable auto phone numbers recognition which causes ghost clicks -->
+    <meta name="format-detection" content="telephone=no"/>
+
+    <!-- Framework styles -->
+    <link rel="stylesheet" href="aiq/main.css" type="text/css"/>
+
+    <!-- App styles -->
+    <link rel="stylesheet" href="css/fonts.css" type="text/css"/>
+    <link rel="stylesheet" href="css/app-styles.css" type="text/css"/>
+
+    <!-- Include Core API -->
+    <script src="aiq/aiq-api.js"></script>
+
     <!-- Include AIQ HTML5 framework JS -->
-    <script src="aiq/js/AIQ.js"></script>
+    <script src="aiq/aiq-framework.js"></script>
 
     <script>
+        // App namespace; "TD" for "Train Damage"
         var TD = {};
+    </script>
 
-        getCssResources = function () {
-            // AIQ
-            var fwCssResources = [
-                "aiq/css/normalize.css",
-                "aiq/css/layout.css",
-                "aiq/css/ui.css"
-            ];
+    <!-- App JavaScripts -->
+    <!-- Plugins -->
+    <script src="js/jquery.dateFormat-1.0.js"></script>
 
-            // Plugins
-            var pluginCssResources = [
-                'aiq/plugins/iscroll/css/iscroll.css'
-            ];
+    <!-- Models -->
+    <script src="js/models/Train.js"></script>
+    <script src="js/models/TrainDefectReport.js"></script>
+    <script src="js/models/TrainType.js"></script>
+    <script src="js/models/TrainDefectImage.js"></script>
 
-            // App
-            var appCssResources = [
-                "css/fonts.css",
-                "css/app-styles.css"
-            ];
+    <!-- Controllers -->
+    <script src="js/controllers/Home.js"></script>
+    <script src="js/controllers/TrainDefectList.js"></script>
+    <script src="js/controllers/TrainDefectListItem.js"></script>
+    <script src="js/controllers/TrainDefectDetails.js"></script>
+    <script src="js/controllers/TrainDefectDetailsItem.js"></script>
+    <script src="js/controllers/ReportDamage-TrainPart.js"></script>
+    <script src="js/controllers/ReportDamage-ErrorType.js"></script>
+    <script src="js/controllers/ReportDamage-Description.js"></script>
+    <script src="js/controllers/ReportDamage-Pictures.js"></script>
+    <script src="js/controllers/PictureListItem.js"></script>
+    <script src="js/controllers/ReportDamage-Summary.js"></script>
+    <script src="js/controllers/ReportDamage-Confirmation.js"></script>
 
-            return fwCssResources.concat(pluginCssResources, appCssResources);
-        };
-
-        // init application with your App's script resources
-        AIQ.init(getCssResources(),
-            [
-                // Plugins
-                'aiq/plugins/iscroll/libs/iscroll.js',
-                'aiq/plugins/iscroll/js/Initializer.js',
-
-                // Models
-                'js/models/Train.js',
-                'js/models/TrainDefectReport.js',
-                'js/models/TrainType.js',
-                'js/models/TrainDefectImage.js',
-
-                // Controllers
-                'js/controllers/Home.js',
-                'js/controllers/TrainDefectList.js',
-                'js/controllers/TrainDefectListItem.js',
-                'js/controllers/TrainDefectDetails.js',
-                'js/controllers/TrainDefectDetailsItem.js',
-                'js/controllers/ReportDamage-TrainPart.js',
-                'js/controllers/ReportDamage-ErrorType.js',
-                'js/controllers/ReportDamage-Description.js',
-                'js/controllers/ReportDamage-Pictures.js',
-                'js/controllers/PictureListItem.js',
-                'js/controllers/ReportDamage-Summary.js',
-                'js/controllers/ReportDamage-Confirmation.js',
-                'js/jquery.dateFormat-1.0.js'
-            ],
-            {
-                mock: true
-            });
+    <script>
+        // init application
+        aiq.app.bootstrap();
     </script>
 </head>
 

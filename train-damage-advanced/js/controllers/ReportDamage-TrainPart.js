@@ -1,7 +1,7 @@
 ﻿/**
  * Report damage view (step 1 - Train Part selection)
  */
-AIQ.Plugin.iScroll.Controller.sub({
+aiq.Plugin.iScroll.Controller.sub({
 
     events: {
         'click a': 'onListItemClicked'
@@ -23,7 +23,7 @@ AIQ.Plugin.iScroll.Controller.sub({
     render: function (params) {
         // Retrieving the temporary report
         if (TD.MyReport) {
-            AIQ.Core.App.setTitle("Train " + TD.MyReport.trainNumber);
+            aiq.client.setAppTitle("Train " + TD.MyReport.trainNumber);
 
             var train = TD.Train.findByAttribute("trainNumber", TD.MyReport.trainNumber);
             if (train) {

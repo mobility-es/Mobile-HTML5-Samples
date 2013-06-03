@@ -1,7 +1,7 @@
 ﻿/**
  * Report damage view (step 2 - Error Type selection)
  */
-AIQ.Plugin.iScroll.Controller.sub({
+aiq.Plugin.iScroll.Controller.sub({
 
     events: {
         'click a': 'onListItemClicked'

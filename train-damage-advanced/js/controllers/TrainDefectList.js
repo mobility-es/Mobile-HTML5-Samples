@@ -1,4 +1,4 @@
-AIQ.Plugin.iScroll.Controller.sub({
+aiq.Plugin.iScroll.Controller.sub({
     events: {
         'click a[role="pick-train"]': "pickTrain",
         'click a[role="report-damage"]': "reportDamage"
@@ -20,7 +20,7 @@ AIQ.Plugin.iScroll.Controller.sub({
     render: function (params) {
         //retrieve temporary report containing user data
         if (TD.MyReport) {
-            AIQ.Core.App.setTitle("Train " + TD.MyReport.trainNumber);
+            aiq.client.setAppTitle("Train " + TD.MyReport.trainNumber);
 
             var items = TD.TrainDefectReport.findByAttributeSorted("trainNumber", TD.MyReport.trainNumber);
 
@@ -30,7 +30,7 @@ AIQ.Plugin.iScroll.Controller.sub({
             var list = $('<ul class="AIQ-ui-list"></ul>');
 
             for (var i = 0; i < items.length; i++) {
-                AIQ.Spine.Controller.fromRoute("DefectListItem", {
+                aiq.app.Controller.fromRoute("DefectListItem", {
                     item: items[i],
                     train: TD.MyReport.trainNumber
                 }).render().appendTo(list);
@@ -53,7 +53,7 @@ AIQ.Plugin.iScroll.Controller.sub({
 
     pickTrain: function () {
         // When clicking on this button, we want to clear the search query (unlike when navigating back)
-        AIQ.Spine.App.controllers["/"].clearQuery();
+        aiq.app.controllers["/"].clearQuery();
         this.navigate("/");
     },
 

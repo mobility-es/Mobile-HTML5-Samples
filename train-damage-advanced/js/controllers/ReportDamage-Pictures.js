@@ -1,7 +1,7 @@
 ﻿/**
  * Report damage view (step 4 - Attaching pictures)
  */
-AIQ.Plugin.iScroll.Controller.sub({
+aiq.Plugin.iScroll.Controller.sub({
     events: {
         "click a[role='take-picture']": "onTakePicture",
         "click a[role='pick-picture']": "onPickPicture",
@@ -80,7 +80,7 @@ AIQ.Plugin.iScroll.Controller.sub({
 
     onImageCreate: function (doc) {
         var that = this;
-        AIQ.Core.Imaging.getImage(doc.id, {
+        aiq.imaging.capture(doc.id, {
             source: this.imageSource,
             success: function (attachment) {
                 that._addImage(doc.id, attachment.resourceId);  // "attachment.resourceId" contains the URL to the picture
@@ -147,7 +147,7 @@ AIQ.Plugin.iScroll.Controller.sub({
             if (this.imageControllers.hasOwnProperty(key) && this.imageControllers[key].isSelected()) {
                 (function (index) {
                     var controller = that.imageControllers[key];
-                    AIQ.Core.DataSync.deleteDocument(key, {
+                    aiq.datasync.deleteDocument(key, {
                         success: function () {
                             // remove the markup of the deleted image controller from the view
                             controller.release();
@@ -229,7 +229,7 @@ AIQ.Plugin.iScroll.Controller.sub({
 
         for (var i = 0; i < images.length; i++) {
             (function (index) {
-                AIQ.Core.DataSync.getAttachments(images[index].id, {
+                aiq.datasync.getAttachments(images[index].id, {
                     success: function (attachments) {
                         that._addImage(
                             images[index].id,
@@ -241,7 +241,7 @@ AIQ.Plugin.iScroll.Controller.sub({
     },
 
     _addImage: function (id, pictureUrl) {
-        var appended = AIQ.Spine.Controller.fromRoute("pictureListItem", {
+        var appended = aiq.app.Controller.fromRoute("pictureListItem", {
             id: id,
             picture: pictureUrl
         });

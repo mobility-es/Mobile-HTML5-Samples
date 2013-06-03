@@ -1,7 +1,7 @@
 ﻿/**
  * Report damage view (step 5 - Summary)
  */
-AIQ.Plugin.iScroll.Controller.sub({
+aiq.Plugin.iScroll.Controller.sub({
     updatedImagesCount: 0,
 
     events: {
@@ -56,7 +56,7 @@ AIQ.Plugin.iScroll.Controller.sub({
 
         var imageDocs = TD.TrainDefectImage.getOrphanedSorted();
         for (var i = 0; i < imageDocs.length; i++) {
-            AIQ.Core.DataSync.getAttachments(imageDocs[i].id, {
+            aiq.datasync.getAttachments(imageDocs[i].id, {
                 success: function (attachments) {
                     renderAttachment(attachments[0]);
 
@@ -73,7 +73,7 @@ AIQ.Plugin.iScroll.Controller.sub({
 
         //request for AIQ context to retrieve username; create Train Defect document from the temporary report object
         // Cf. https://docs.appeariq.com/display/AIQDEV/Context for documentation on the Context API
-        AIQ.Core.Context.getGlobal("com.appearnetworks.aiq.user", {
+        aiq.context.getGlobal("com.appearnetworks.aiq.user", {
             success: function (context) {
                 TD.MyReport.reportedBy = context.username;
                 new TD.TrainDefectReport(TD.MyReport).save();
@@ -102,7 +102,7 @@ AIQ.Plugin.iScroll.Controller.sub({
 
         // Once all images are assigned to the damage report, we synchronize with the platform
         if (this.updatedImagesCount === this.initialOrphanedCount) {
-            AIQ.Core.DataSync.synchronize();
+            aiq.datasync.synchronize();
 
             this.updatedImagesCount = 0;
         }

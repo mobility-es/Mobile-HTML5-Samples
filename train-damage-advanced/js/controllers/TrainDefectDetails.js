@@ -2,7 +2,7 @@
  * User: Ashad
  * Date: 2012-12-04
  */
-AIQ.Plugin.iScroll.Controller.sub({
+aiq.Plugin.iScroll.Controller.sub({
 
     events: {
         'click a[role="previous-item"]': 'onPreviousBtnClicked',
@@ -74,12 +74,7 @@ AIQ.Plugin.iScroll.Controller.sub({
         return this;
     },
 
-    displayItem: function (item, transition) {
-        var postTransition = function () {
-            this.delay(function () {
-                this.updateFooter();
-            }, 0);
-        };
+    displayItem: function (item) {
         if (item) {
             this.item = item;
         }
@@ -93,7 +88,7 @@ AIQ.Plugin.iScroll.Controller.sub({
         this.oldController = this.itemController;
         var $previousItem = this.$item || $();
 
-        this.itemController = AIQ.Spine.Controller.fromRoute("detailsItem", {
+        this.itemController = aiq.app.Controller.fromRoute("detailsItem", {
             dateTime: this.item.defectDateTime,
             item: this.item
         }).render();
@@ -104,25 +99,9 @@ AIQ.Plugin.iScroll.Controller.sub({
             .removeClass("AIQ-in")
             .removeClass("AIQ-slideup")
             .removeClass("AIQ-slidedown");
-        if (transition) {
-            if (Modernizr.cssanimations) {
-                $previousItem.one(AIQ.UI.Event.animationEnd, this.proxy(function () {
-                    postTransition.call(this);
-                }));
-            } else {
-                postTransition.call(this);
-            }
 
-            this.$item
-                .addClass(transition)
-                .addClass("AIQ-in");
-            $previousItem
-                .addClass(transition)
-                .addClass("AIQ-out");
-        } else {
-            $previousItem.remove();
-            postTransition.call(this);
-        }
+        $previousItem.remove();
+        this.updateFooter();
 
         this.createScroller();
     },

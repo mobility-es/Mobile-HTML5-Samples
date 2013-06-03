@@ -1,7 +1,7 @@
 ﻿/**
  * Report damage view (step 6 - Confirmation)
  */
-AIQ.Spine.Controller.sub({
+aiq.app.Controller.sub({
     events: {
         'click #report-new': 'onReportNewDamage',
         'click #back-home': 'onBackHome'
@@ -25,7 +25,7 @@ AIQ.Spine.Controller.sub({
         TD.TrainDefectImage.cleanupOrphaned();
 
         // We call "destroy()" on all controllers to clean up JS memory and DOM
-        AIQ.Spine.Controller.destroyAll();
+        aiq.app.Controller.destroyAll();
 
         this.navigate("/ReportDamage-TrainPart");
     },
@@ -36,7 +36,7 @@ AIQ.Spine.Controller.sub({
         // We don't need to cleanup orphaned images here, since it's taken care of in the home controller
 
         // We call "destroy()" on all controllers to clean up JS memory and DOM
-        AIQ.Spine.Controller.destroyAll();
+        aiq.app.Controller.destroyAll();
 
         this.navigate("/");
     }

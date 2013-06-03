@@ -1,5 +1,5 @@
-// Always subclass AIQ.Spine.Model for App models
-TD.Train = AIQ.Spine.Model.sub();
+// Always subclass aiq.app.Model for App models
+TD.Train = aiq.app.Model.sub();
 
 // Configure Name (1:1 mapping of Document type) and attributes (Document format)
 TD.Train.configure("TD.Train",

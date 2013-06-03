@@ -1,6 +1,6 @@
-// Extending class "AIQ.Plugin.iScroll.Controller" enables iScroll, used for when having a fixed header and/or footer
+// Extending class "aiq.Plugin.iScroll.Controller" enables iScroll, used for when having a fixed header and/or footer
 // with a scrollable middle section
-AIQ.Plugin.iScroll.Controller.sub({
+aiq.Plugin.iScroll.Controller.sub({
     events: {
         "click li > a": "onListItemClicked",
         "click #select-button": "onSelectButtonClicked",
@@ -8,9 +8,6 @@ AIQ.Plugin.iScroll.Controller.sub({
     },
 
     init: function () {
-        // Force portrait mode
-        AIQ.Core.Display.setOrientation("portrait");
-
         // Request for older images and destroy them, if any
         TD.TrainDefectImage.bind("refresh", function () {
             TD.TrainDefectImage.unbind("refresh");

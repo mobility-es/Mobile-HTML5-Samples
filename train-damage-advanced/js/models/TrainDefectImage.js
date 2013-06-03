@@ -1,4 +1,4 @@
-TD.TrainDefectImage = AIQ.Spine.Model.sub();
+TD.TrainDefectImage = aiq.app.Model.sub();
 
 TD.TrainDefectImage.configure(
     "TD.TrainDefectImage",
