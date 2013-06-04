@@ -3,7 +3,7 @@
 * Global
 *****************************************************************************/
 #imageCache {
-    background-image: url("assets/24x24_black_arrow.png"), url("assets/white-camera.png"), url("assets/white-pictures.png"), url("assets/white-pick-train.png"), url("assets/white-report-damage.png"), url("assets/white-curved-left-arrow.png"), url("assets/progress-bar-1of4.png"), url("assets/progress-bar-2of4.png"), url("assets/progress-bar-3of4.png"), url("assets/progress-bar-4of4.png"), url("../aiq/img/black-btn-bg-default.png"), url("../aiq/img/black-btn-bg-pressed.png"), url("../aiq/img/action-bar-btn-bg-default.png"), url("../aiq/img/action-bar-btn-bg-pressed.png"), url("assets/50px-list-bg-default.png"), url("assets/50px-list-bg-pressed.png");
+    background-image: url("assets/24x24_black_arrow.png"), url("assets/white-camera.png"), url("assets/white-pictures.png"), url("assets/white-pick-train.png"), url("assets/white-report-damage.png"), url("assets/white-curved-left-arrow.png"), url("assets/progress-bar-1of4.png"), url("assets/progress-bar-2of4.png"), url("assets/progress-bar-3of4.png"), url("assets/progress-bar-4of4.png"), url("assets/50px-list-bg-default.png"), url("assets/50px-list-bg-pressed.png");
 }
 
 .AIQ-page {
@@ -26,36 +26,36 @@ header {
 *****************************************************************************/
 footer > a[role="pick-train"] {
     width: 50%;
-    background-image: url("assets/white-pick-train.png"), url("../aiq/img/action-bar-btn-bg-default.png");
+    background-image: url("assets/white-pick-train.png"), url("/aiq/app/images/action-bar-btn-bg-default.png");
 }
 
 footer > a[role="pick-train"]:active, footer > a[role="pick-train"].active {
-    background-image: url("assets/white-pick-train.png"), url("../aiq/img/action-bar-btn-bg-pressed.png");
+    background-image: url("assets/white-pick-train.png"), url("/aiq/app/images/action-bar-btn-bg-pressed.png");
 }
 
 footer > a[role="report-damage"] {
     width: 50%;
-    background-image: url("assets/white-report-damage.png"), url("../aiq/img/action-bar-btn-bg-default.png");
+    background-image: url("assets/white-report-damage.png"), url("/aiq/app/images/action-bar-btn-bg-default.png");
 }
 
 footer > a[role="report-damage"]:active, footer > a[role="report-damage"].active {
-    background-image: url("assets/white-report-damage.png"), url("../aiq/img/action-bar-btn-bg-pressed.png");
+    background-image: url("assets/white-report-damage.png"), url("/aiq/app/images/action-bar-btn-bg-pressed.png");
 }
 
 footer > a[role="take-picture"] {
-    background-image: url("assets/white-camera.png"), url("../aiq/img/action-bar-btn-bg-default.png");
+    background-image: url("assets/white-camera.png"), url("/aiq/app/images/action-bar-btn-bg-default.png");
 }
 
 footer > a[role="take-picture"]:active, footer > a[role="take-picture"].active {
-    background-image: url("assets/white-camera.png"), url("../aiq/img/action-bar-btn-bg-pressed.png");
+    background-image: url("assets/white-camera.png"), url("/aiq/app/images/action-bar-btn-bg-pressed.png");
 }
 
 footer > a[role="pick-picture"] {
-    background-image: url("assets/white-pictures.png"), url("../aiq/img/action-bar-btn-bg-default.png");
+    background-image: url("assets/white-pictures.png"), url("/aiq/app/images/action-bar-btn-bg-default.png");
 }
 
 footer > a[role="pick-picture"]:active, footer > a[role="pick-picture"].active {
-    background-image: url("assets/white-pictures.png"), url("../aiq/img/action-bar-btn-bg-pressed.png");
+    background-image: url("assets/white-pictures.png"), url("/aiq/app/images/action-bar-btn-bg-pressed.png");
 }
 
 /******************************************************************************
@@ -668,17 +668,17 @@ footer > a[role="pick-picture"]:active, footer > a[role="pick-picture"].active {
 }
 
 #report-new {
-    background-image: url("assets/white-report-damage.png"), url("../aiq/img/black-btn-bg-default.png");
+    background-image: url("assets/white-report-damage.png"), url("/aiq/app/images/black-btn-bg-default.png");
 }
 
 #report-new:active, #report-new.active {
-    background-image: url("assets/white-report-damage.png"), url("../aiq/img/black-btn-bg-pressed.png");
+    background-image: url("assets/white-report-damage.png"), url("/aiq/app/images/black-btn-bg-pressed.png");
 }
 
 #back-home {
-    background-image: url("assets/white-curved-left-arrow.png"), url("../aiq/img/black-btn-bg-default.png");
+    background-image: url("assets/white-curved-left-arrow.png"), url("/aiq/app/images/black-btn-bg-default.png");
 }
 
 #back-home:active, #back-home.active {
-    background-image: url("assets/white-curved-left-arrow.png"), url("../aiq/img/black-btn-bg-pressed.png");
+    background-image: url("assets/white-curved-left-arrow.png"), url("/aiq/app/images/black-btn-bg-pressed.png");
 }

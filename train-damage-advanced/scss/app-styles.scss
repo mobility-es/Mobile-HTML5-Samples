@@ -1,7 +1,7 @@
 /* Import framework styles */
-@import "../aiq/scss/mixins/css3";
-@import "../aiq/scss/mixins/utils";
-@import "../aiq/scss/variables";
+@import "../aiq/app/scss/mixins/css3";
+@import "../aiq/app/scss/mixins/utils";
+@import "../aiq/app/scss/variables";
 
 /******************************************************************************
 * Global
@@ -20,10 +20,6 @@ $progressBar3of4: url('assets/progress-bar-3of4.png');
 $progressBar4of4: url('assets/progress-bar-4of4.png');
 
 // Backgrounds
-$blackBtnBgDefault: url('../aiq/img/black-btn-bg-default.png');
-$blackBtnBgPressed: url('../aiq/img/black-btn-bg-pressed.png');
-$actionBarBtnBgDefault: url('../aiq/img/action-bar-btn-bg-default.png');
-$actionBarBtnBgPressed: url('../aiq/img/action-bar-btn-bg-pressed.png');
 $fiftyPxListBgDefault: url('assets/50px-list-bg-default.png');
 $fiftyPxListBgPressed: url('assets/50px-list-bg-pressed.png');
 
@@ -39,10 +35,6 @@ $fiftyPxListBgPressed: url('assets/50px-list-bg-pressed.png');
         $progressBar2of4,
         $progressBar3of4,
         $progressBar4of4,
-        $blackBtnBgDefault,
-        $blackBtnBgPressed,
-        $actionBarBtnBgDefault,
-        $actionBarBtnBgPressed,
         $fiftyPxListBgDefault,
         $fiftyPxListBgPressed;
 }
