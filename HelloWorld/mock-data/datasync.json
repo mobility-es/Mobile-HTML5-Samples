@@ -1,0 +1,24 @@
+﻿{                                                                                                                                                  
+   "documents": [
+       {
+           "_type": "HW.Vehicle",
+           "name": "First vehicle"
+       },
+       {
+           "_type": "HW.Vehicle",
+           "name": "Second vehicle"
+       },
+       {
+           "_type": "HW.Vehicle",
+           "name": "Third vehicle"
+       },
+       {
+           "_type": "HW.Vehicle",
+           "name": "Fourth vehicle"
+       },
+       {
+           "_type": "HW.Vehicle",
+           "name": "Fifth vehicle"
+       }
+   ]
+}
