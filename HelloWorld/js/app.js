@@ -6,7 +6,7 @@ var HW = HW || {};
     "use strict";
     
     HW.aiqReady = function() {
-        AIQ.Core.DataSync.getDocuments("HW.Vehicle", {
+        aiq.datasync.getDocuments("HW.Vehicle", {
             
             success: function(docs) {
                 if (docs.length === 0) {
