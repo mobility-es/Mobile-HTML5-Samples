@@ -498,7 +498,7 @@ footer > a[role="pick-picture"]:active, footer > a[role="pick-picture"].active {
 }
 
 .picture-list .for-greyscale {
-    background-color: black;
+    background-color: white;
     max-width: 90%;
     margin: 0 auto;
     border: 5px solid white;
