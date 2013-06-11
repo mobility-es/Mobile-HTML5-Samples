@@ -3,191 +3,134 @@
 * Global
 *****************************************************************************/
 #imageCache {
-    background-image: url("assets/24x24_black_arrow.png"), url("assets/white-camera.png"), url("assets/white-pictures.png"), url("assets/white-pick-train.png"), url("assets/white-report-damage.png"), url("assets/white-curved-left-arrow.png"), url("assets/progress-bar-1of4.png"), url("assets/progress-bar-2of4.png"), url("assets/progress-bar-3of4.png"), url("assets/progress-bar-4of4.png"), url("assets/50px-list-bg-default.png"), url("assets/50px-list-bg-pressed.png");
-}
+  background-image: url("assets/24x24_black_arrow.png"), url("assets/white-camera.png"), url("assets/white-pictures.png"), url("assets/white-pick-train.png"), url("assets/white-report-damage.png"), url("assets/white-curved-left-arrow.png"), url("assets/progress-bar-1of4.png"), url("assets/progress-bar-2of4.png"), url("assets/progress-bar-3of4.png"), url("assets/progress-bar-4of4.png"), url("assets/50px-list-bg-default.png"), url("assets/50px-list-bg-pressed.png"); }
 
 .AIQ-page {
-    background-color: #f2f2f2;
-}
+  background-color: #f2f2f2; }
 
 /******************************************************************************
 * Header
 *****************************************************************************/
 header {
-    background-color: #f2f2f2;
-    border-bottom: solid 1px #e6e6e6;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
+  background-color: #f2f2f2;
+  border-bottom: solid 1px #e6e6e6;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
 
 /******************************************************************************
 * Footer
 *****************************************************************************/
 footer > a[role="pick-train"] {
-    width: 50%;
-    background-image: url("assets/white-pick-train.png"), url("/aiq/app/images/action-bar-btn-bg-default.png");
-}
-
-footer > a[role="pick-train"]:active, footer > a[role="pick-train"].active {
-    background-image: url("assets/white-pick-train.png"), url("/aiq/app/images/action-bar-btn-bg-pressed.png");
-}
-
+  width: 50%;
+  background-image: url("assets/white-pick-train.png"), url("../aiq/app/images/action-bar-btn-bg-default.png"); }
+  footer > a[role="pick-train"]:active, footer > a[role="pick-train"].active {
+    background-image: url("assets/white-pick-train.png"), url("../aiq/app/images/action-bar-btn-bg-pressed.png"); }
 footer > a[role="report-damage"] {
-    width: 50%;
-    background-image: url("assets/white-report-damage.png"), url("/aiq/app/images/action-bar-btn-bg-default.png");
-}
-
-footer > a[role="report-damage"]:active, footer > a[role="report-damage"].active {
-    background-image: url("assets/white-report-damage.png"), url("/aiq/app/images/action-bar-btn-bg-pressed.png");
-}
-
+  width: 50%;
+  background-image: url("assets/white-report-damage.png"), url("../aiq/app/images/action-bar-btn-bg-default.png"); }
+  footer > a[role="report-damage"]:active, footer > a[role="report-damage"].active {
+    background-image: url("assets/white-report-damage.png"), url("../aiq/app/images/action-bar-btn-bg-pressed.png"); }
 footer > a[role="take-picture"] {
-    background-image: url("assets/white-camera.png"), url("/aiq/app/images/action-bar-btn-bg-default.png");
-}
-
-footer > a[role="take-picture"]:active, footer > a[role="take-picture"].active {
-    background-image: url("assets/white-camera.png"), url("/aiq/app/images/action-bar-btn-bg-pressed.png");
-}
-
+  background-image: url("assets/white-camera.png"), url("../aiq/app/images/action-bar-btn-bg-default.png"); }
+  footer > a[role="take-picture"]:active, footer > a[role="take-picture"].active {
+    background-image: url("assets/white-camera.png"), url("../aiq/app/images/action-bar-btn-bg-pressed.png"); }
 footer > a[role="pick-picture"] {
-    background-image: url("assets/white-pictures.png"), url("/aiq/app/images/action-bar-btn-bg-default.png");
-}
-
-footer > a[role="pick-picture"]:active, footer > a[role="pick-picture"].active {
-    background-image: url("assets/white-pictures.png"), url("/aiq/app/images/action-bar-btn-bg-pressed.png");
-}
+  background-image: url("assets/white-pictures.png"), url("../aiq/app/images/action-bar-btn-bg-default.png"); }
+  footer > a[role="pick-picture"]:active, footer > a[role="pick-picture"].active {
+    background-image: url("assets/white-pictures.png"), url("../aiq/app/images/action-bar-btn-bg-pressed.png"); }
 
 /******************************************************************************
 * Progress bar
 *****************************************************************************/
 .progress-bar {
-    width: 4.6875em;
-    height: 0.9375em;
-    margin-top: 1.05em;
-    margin-right: 0.7em;
-    float: right;
-    background-size: 4.6875em 0.9375em;
-}
-
-.progress-bar.one {
-    background-image: url("assets/progress-bar-1of4.png");
-}
-
-.progress-bar.two {
-    background-image: url("assets/progress-bar-2of4.png");
-}
-
-.progress-bar.three {
-    background-image: url("assets/progress-bar-3of4.png");
-}
-
-.progress-bar.four {
-    background-image: url("assets/progress-bar-4of4.png");
-}
+  width: 4.6875em;
+  height: 0.9375em;
+  margin-top: 1.05em;
+  margin-right: 0.7em;
+  float: right;
+  background-size: 4.6875em 0.9375em; }
+  .progress-bar.one {
+    background-image: url("assets/progress-bar-1of4.png"); }
+  .progress-bar.two {
+    background-image: url("assets/progress-bar-2of4.png"); }
+  .progress-bar.three {
+    background-image: url("assets/progress-bar-3of4.png"); }
+  .progress-bar.four {
+    background-image: url("assets/progress-bar-4of4.png"); }
 
 /******************************************************************************
 * Home view
 *****************************************************************************/
 #home-header {
-    height: 3.5em;
-}
+  height: 3.5em; }
 
 #query-wrapper:before, #query-wrapper:after {
-    content: "";
-    display: table;
-}
-
+  content: "";
+  display: table; }
 #query-wrapper:after {
-    clear: both;
-}
-
+  clear: both; }
 #query-wrapper > * {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    display: block;
-    float: left;
-}
-
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: block;
+  float: left; }
 #query-wrapper > div {
-    width: 100%;
-    padding: .5em 1em 0 1em;
-}
-
+  width: 100%;
+  padding: .5em 1em 0 1em; }
 #query-wrapper > span {
-    display: none;
-    width: 22%;
-    padding: .5em .5em 0;
-}
-
-#query-wrapper > span > button {
-    width: 100%;
-}
-
+  display: none;
+  width: 22%;
+  padding: .5em .5em 0; }
+  #query-wrapper > span > button {
+    width: 100%; }
 #query-wrapper.with-select-wrapper > div {
-    width: 78%;
-    padding-right: 0;
-}
-
+  width: 78%;
+  padding-right: 0; }
 #query-wrapper.with-select-wrapper > span {
-    display: block;
-}
+  display: block; }
 
 #query-input {
-    width: 100%;
-}
+  width: 100%; }
 
 #home {
-    top: 3.5em;
-}
-
-#home > .AIQ-ui-list a {
-    padding-top: 0.4em;
-}
+  top: 3.5em; }
+  #home > .AIQ-ui-list a {
+    padding-top: 0.4em; }
 
 /******************************************************************************
 * Defect List view
 *****************************************************************************/
 .defect-list-date {
-    float: left;
-    width: 25%;
-    padding-left: 1em;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
+  float: left;
+  width: 25%;
+  padding-left: 1em;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
 
 .damage-heading {
-    float: left;
-    width: 40%;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
+  float: left;
+  width: 40%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
 
 #defects-header {
-    font-size: 0.9em;
-    color: #666666;
-    height: 33.33333px;
-}
-
-#defects-header:before, #defects-header:after {
+  font-size: 0.9em;
+  color: #666666;
+  height: 33.33333px; }
+  #defects-header:before, #defects-header:after {
     content: "";
-    display: table;
-}
-
-#defects-header:after {
-    clear: both;
-}
-
-#defects-header > .defect-list-date,
-#defects-header > .damage-heading {
+    display: table; }
+  #defects-header:after {
+    clear: both; }
+  #defects-header > .defect-list-date,
+  #defects-header > .damage-heading {
     padding-top: 0.5em;
-    padding-bottom: 0.3em;
-}
-
-#defects-header > .damage-number {
+    padding-bottom: 0.3em; }
+  #defects-header > .damage-number {
     float: right;
     width: 35%;
     padding: 0.25em 0.3em 0 0;
@@ -197,307 +140,210 @@ footer > a[role="pick-picture"]:active, footer > a[role="pick-picture"].active {
     font-family: 'OswaldRegular', Helvetica, sans-serif;
     font-size: 1.3em;
     color: black;
-    text-align: right;
-}
+    text-align: right; }
 
 #defects-list {
-    top: 1.875em;
-}
-
-#defects-list li {
-    min-height: 3.125em;
-}
-
-#defects-list li > a {
-    /*
-    * Overrides of the default .AIQ-ui-list
-    */
-    font-size: 0.875em;
-    min-height: 3.57143em;
-    height: 3.57143em;
-    background-image: url("assets/24x24_black_arrow.png"), url("assets/50px-list-bg-default.png");
-    background-size: 1.71429em, auto 3.57143em;
-    padding-left: 0;
-    padding-right: 0;
-    overflow: hidden;
-}
-
-#defects-list li > a.active, #defects-list li > a.selected {
-    background-image: url("assets/24x24_black_arrow.png"), url("assets/50px-list-bg-pressed.png");
-    background-size: 1.71429em, auto 3.57143em;
-}
-
-#defects-list li > a > * {
-    margin-top: 0.3em;
-}
-
-#defects-list .damage-heading {
+  top: 1.875em; }
+  #defects-list li {
+    min-height: 3.125em; }
+    #defects-list li > a {
+      /*
+      * Overrides of the default .AIQ-ui-list
+      */
+      font-size: 0.875em;
+      min-height: 3.57143em;
+      height: 3.57143em;
+      background-image: url("assets/24x24_black_arrow.png"), url("assets/50px-list-bg-default.png");
+      background-size: 1.71429em, auto 3.57143em;
+      padding-left: 0;
+      padding-right: 0;
+      overflow: hidden; }
+      #defects-list li > a.active, #defects-list li > a.selected {
+        background-image: url("assets/24x24_black_arrow.png"), url("assets/50px-list-bg-pressed.png");
+        background-size: 1.71429em, auto 3.57143em; }
+      #defects-list li > a > * {
+        margin-top: 0.3em; }
+  #defects-list .damage-heading {
     width: 75%;
-    padding-right: 1.5em;
-}
-
-#defects-list .yyyy {
-    font-size: 0.7em;
-}
+    padding-right: 1.5em; }
+  #defects-list .yyyy {
+    font-size: 0.7em; }
 
 /******************************************************************************
 * Defect Details view
 *****************************************************************************/
 #defect-details-header {
-    font-size: 1.25em;
-    height: 3em;
-    font-family: 'OswaldRegular', Helvetica, sans-serif;
-    overflow: hidden;
-}
-
-#defect-details-header:before, #defect-details-header:after {
+  font-size: 1.25em;
+  height: 3em;
+  font-family: 'OswaldRegular', Helvetica, sans-serif;
+  overflow: hidden; }
+  #defect-details-header:before, #defect-details-header:after {
     content: "";
-    display: table;
-}
-
-#defect-details-header:after {
-    clear: both;
-}
-
-#defect-details-header > p {
+    display: table; }
+  #defect-details-header:after {
+    clear: both; }
+  #defect-details-header > p {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
+    box-sizing: border-box; }
 
 #defect-details-heading {
-    float: left;
-    width: 82%;
-    padding-top: 0.3em;
-    padding-left: 0.7em;
-}
+  float: left;
+  width: 82%;
+  padding-top: 0.3em;
+  padding-left: 0.7em; }
 
 #defect-details-index-and-length {
-    float: right;
-    width: 18%;
-    padding-top: 1em;
-    padding-right: 0.3em;
-    text-align: right;
-}
+  float: right;
+  width: 18%;
+  padding-top: 1em;
+  padding-right: 0.3em;
+  text-align: right; }
 
 #defect-details-data {
-    top: 3.75em;
-    background-color: white;
-}
-
-#defect-details-data > section {
-    margin: 1em 0;
-}
-
-#defect-details-data > section > div {
-    margin-top: 1em;
-}
-
-#defect-details-data > section > div:before, #defect-details-data > section > div:after {
-    content: "";
-    display: table;
-}
-
-#defect-details-data > section > div:after {
-    clear: both;
-}
-
-#defect-details-data > section > div:first-child {
-    margin-top: 0;
-}
-
-#defect-details-data > section > div:last-child {
-    padding-bottom: 2em;
-}
-
-#defect-details-data > section > div > * {
-    display: block;
-    float: left;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-#defect-details-data label {
+  top: 3.75em;
+  background-color: white; }
+  #defect-details-data > section {
+    margin: 1em 0; }
+    #defect-details-data > section > div {
+      margin-top: 1em; }
+      #defect-details-data > section > div:before, #defect-details-data > section > div:after {
+        content: "";
+        display: table; }
+      #defect-details-data > section > div:after {
+        clear: both; }
+      #defect-details-data > section > div:first-child {
+        margin-top: 0; }
+      #defect-details-data > section > div:last-child {
+        padding-bottom: 2em; }
+      #defect-details-data > section > div > * {
+        display: block;
+        float: left;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box; }
+  #defect-details-data label {
     width: 40%;
-    color: #666666;
-}
-
-#defect-details-data span {
-    width: 60%;
-}
-
-#defect-details-data .date {
-    width: 35%;
-}
-
-#defect-details-data .time {
-    width: 25%;
-}
-
-#defect-details-data label,
-#defect-details-data p {
-    padding-left: 1.5em;
-}
-
-#defect-details-data p {
+    color: #666666; }
+  #defect-details-data span {
+    width: 60%; }
+  #defect-details-data .date {
+    width: 35%; }
+  #defect-details-data .time {
+    width: 25%; }
+  #defect-details-data label,
+  #defect-details-data p {
+    padding-left: 1.5em; }
+  #defect-details-data p {
     padding-right: 1.5em;
-    clear: both;
-}
+    clear: both; }
 
 #defect-details-pick-train {
-    width: 33%;
-}
+  width: 33%; }
 
 /****************************************************************************
 * Report damage view (step 1 - Train Part)
 *****************************************************************************/
 .report-damage-header {
-    height: 3.125em;
-}
-
-.report-damage-header:before, .report-damage-header:after {
+  height: 3.125em; }
+  .report-damage-header:before, .report-damage-header:after {
     content: "";
-    display: table;
-}
-
-.report-damage-header:after {
-    clear: both;
-}
-
-.report-damage-header > h1 {
+    display: table; }
+  .report-damage-header:after {
+    clear: both; }
+  .report-damage-header > h1 {
     float: left;
     font-size: 1.25em;
     font-weight: normal;
     font-family: 'OswaldRegular', Helvetica, sans-serif;
     margin-left: 0.6em;
-    margin-bottom: 0;
-}
+    margin-bottom: 0; }
 
 #train-part-article {
-    top: 3.125em;
-    clear: both;
-}
-
-#train-part-article a {
-    padding-top: 0.4em;
-}
+  top: 3.125em;
+  clear: both; }
+  #train-part-article a {
+    padding-top: 0.4em; }
 
 /****************************************************************************
 * Report damage view (step 2 - Error Type)
 *****************************************************************************/
 #error-type-article {
-    top: 3.125em;
-    clear: both;
-}
+  top: 3.125em;
+  clear: both; }
 
 /****************************************************************************
 * Report damage view (step 3 - Description)
 *****************************************************************************/
 #description {
-    background-color: white;
-}
-
-#description > header {
-    height: auto;
-}
-
-#description > header:before, #description > header:after {
-    content: "";
-    display: table;
-}
-
-#description > header:after {
-    clear: both;
-}
-
-#description h1 {
+  background-color: white; }
+  #description > header {
+    height: auto; }
+    #description > header:before, #description > header:after {
+      content: "";
+      display: table; }
+    #description > header:after {
+      clear: both; }
+  #description h1 {
     float: left;
     font-size: 1.25em;
     font-weight: normal;
     font-family: 'OswaldRegular', Helvetica, sans-serif;
     margin-left: 0.6em;
-    margin-bottom: 0.6em;
-}
-
-#description > article {
-    clear: both;
-}
-
-#description > article > div {
-    margin: 1em;
-}
-
-#description textarea {
+    margin-bottom: 0.6em; }
+  #description > article {
+    clear: both; }
+    #description > article > div {
+      margin: 1em; }
+  #description textarea {
     width: 100%;
     height: 12em;
     padding: 0.5em;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
+    box-sizing: border-box; }
 
 /****************************************************************************
 * Report damage view (step 4 - Pictures)
 *****************************************************************************/
 #frivilligt {
-    float: left;
-    color: #666666;
-    padding: 1.1em 0 0 0.4em;
-}
+  float: left;
+  color: #666666;
+  padding: 1.1em 0 0 0.4em; }
 
 #pictures-article {
-    top: 3.125em;
-    clear: both;
-    background-color: white;
-}
-
-#pictures-article.modifying {
-    background-color: #d9d9d9;
-}
-
-#pictures-article.modifying .picture-list {
-    background-color: #d9d9d9;
-}
-
-#pictures-article.modifying .for-greyscale {
-    box-shadow: 0 0 5px 2px #aaa;
-}
-
-#pictures-article h2 {
+  top: 3.125em;
+  clear: both;
+  background-color: white; }
+  #pictures-article.modifying {
+    background-color: #d9d9d9; }
+    #pictures-article.modifying .picture-list {
+      background-color: #d9d9d9; }
+    #pictures-article.modifying .for-greyscale {
+      box-shadow: 0 0 5px 2px #aaa; }
+  #pictures-article h2 {
     margin: 1em 0 0 1.5em;
     font-size: 0.9em;
     font-weight: normal;
-    color: #666666;
-}
+    color: #666666; }
 
 .picture-list {
-    background-color: white;
-}
-
-.picture-list:before, .picture-list:after {
+  background-color: white; }
+  .picture-list:before, .picture-list:after {
     content: "";
-    display: table;
-}
-
-.picture-list:after {
-    clear: both;
-}
-
-.picture-list li {
+    display: table; }
+  .picture-list:after {
+    clear: both; }
+  .picture-list li {
     width: 50%;
-    float: left;
-}
-
-.picture-list a {
+    float: left; }
+  .picture-list a {
     display: block;
     margin: 1em auto;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-.picture-list .for-greyscale {
+    box-sizing: border-box; }
+  .picture-list .for-greyscale {
     background-color: black;
     max-width: 90%;
     margin: 0 auto;
@@ -506,14 +352,10 @@ footer > a[role="pick-picture"]:active, footer > a[role="pick-picture"].active {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     box-shadow: 0 0 5px 2px #e6e6e6;
-    position: relative;
-}
-
-.picture-list .picture {
-    width: 100%;
-}
-
-.picture-list .selected-icon {
+    position: relative; }
+  .picture-list .picture {
+    width: 100%; }
+  .picture-list .selected-icon {
     display: none;
     position: absolute;
     top: 50%;
@@ -521,108 +363,70 @@ footer > a[role="pick-picture"]:active, footer > a[role="pick-picture"].active {
     width: 1.5em;
     height: 1.5em;
     margin-left: -0.75em;
-    margin-top: -0.75em;
-}
-
-.picture-list .selected .picture {
-    opacity: 0.4;
-}
-
-.picture-list .selected .selected-icon {
-    display: block;
-}
+    margin-top: -0.75em; }
+  .picture-list .selected .picture {
+    opacity: 0.4; }
+  .picture-list .selected .selected-icon {
+    display: block; }
 
 /****************************************************************************
 * Report damage view (step 5 - Summary)
 *****************************************************************************/
 #summary-header {
-    border: none;
-}
-
-#summary-header > img {
+  border: none; }
+  #summary-header > img {
     float: right;
     width: 1.5625em;
     height: 1.375em;
-    margin: 1em 1em 0 0;
-}
+    margin: 1em 1em 0 0; }
 
 #summary-article {
-    top: 3.125em;
-    clear: both;
-}
-
-#summary-article #wrapper-for-padding {
+  top: 3.125em;
+  clear: both; }
+  #summary-article #wrapper-for-padding {
     background-color: white;
-    margin: 0 0.8em 1em 0.8em;
-}
-
-#summary-article #wrapper-for-padding:before, #summary-article #wrapper-for-padding:after {
+    margin: 0 0.8em 1em 0.8em; }
+    #summary-article #wrapper-for-padding:before, #summary-article #wrapper-for-padding:after {
+      content: "";
+      display: table; }
+    #summary-article #wrapper-for-padding:after {
+      clear: both; }
+    #summary-article #wrapper-for-padding > div {
+      margin-top: 1em; }
+      #summary-article #wrapper-for-padding > div:before, #summary-article #wrapper-for-padding > div:after {
+        content: "";
+        display: table; }
+      #summary-article #wrapper-for-padding > div:after {
+        clear: both; }
+      #summary-article #wrapper-for-padding > div > * {
+        display: block;
+        float: left;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box; }
+    #summary-article #wrapper-for-padding label {
+      width: 40%;
+      color: #666666; }
+    #summary-article #wrapper-for-padding span {
+      width: 60%; }
+    #summary-article #wrapper-for-padding label,
+    #summary-article #wrapper-for-padding p,
+    #summary-article #wrapper-for-padding #attachments {
+      padding-left: 1em; }
+    #summary-article #wrapper-for-padding p,
+    #summary-article #wrapper-for-padding #attachments {
+      padding-right: 1em;
+      clear: both;
+      margin-bottom: 1em; }
+  #summary-article #attachments:before, #summary-article #attachments:after {
     content: "";
-    display: table;
-}
-
-#summary-article #wrapper-for-padding:after {
-    clear: both;
-}
-
-#summary-article #wrapper-for-padding > div {
-    margin-top: 1em;
-}
-
-#summary-article #wrapper-for-padding > div:before, #summary-article #wrapper-for-padding > div:after {
-    content: "";
-    display: table;
-}
-
-#summary-article #wrapper-for-padding > div:after {
-    clear: both;
-}
-
-#summary-article #wrapper-for-padding > div > * {
-    display: block;
-    float: left;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-#summary-article #wrapper-for-padding label {
-    width: 40%;
-    color: #666666;
-}
-
-#summary-article #wrapper-for-padding span {
-    width: 60%;
-}
-
-#summary-article #wrapper-for-padding label,
-#summary-article #wrapper-for-padding p,
-#summary-article #wrapper-for-padding #attachments {
-    padding-left: 1em;
-}
-
-#summary-article #wrapper-for-padding p,
-#summary-article #wrapper-for-padding #attachments {
-    padding-right: 1em;
-    clear: both;
-    margin-bottom: 1em;
-}
-
-#summary-article #attachments:before, #summary-article #attachments:after {
-    content: "";
-    display: table;
-}
-
-#summary-article #attachments:after {
-    clear: both;
-}
-
-#summary-article #attachments > li {
+    display: table; }
+  #summary-article #attachments:after {
+    clear: both; }
+  #summary-article #attachments > li {
     width: 33%;
-    float: left;
-}
-
-#summary-article img {
+    float: left; }
+  #summary-article img {
     max-width: 90%;
     display: block;
     margin: 1em auto 0 auto;
@@ -630,55 +434,38 @@ footer > a[role="pick-picture"]:active, footer > a[role="pick-picture"].active {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    box-shadow: 0 0 3px 1px #e6e6e6;
-}
+    box-shadow: 0 0 3px 1px #e6e6e6; }
 
 /****************************************************************************
 * Report damage view (step 6 - Confirmation)
 *****************************************************************************/
 #confirmation-article {
-    background-color: white;
-    height: 100%;
-}
-
-#confirmation-article > img {
+  background-color: white;
+  height: 100%; }
+  #confirmation-article > img {
     width: 5.625em;
     height: 3.75em;
-    margin-top: 1.875em;
-}
-
-#confirmation-article > p {
+    margin-top: 1.875em; }
+  #confirmation-article > p {
     margin: 0.5em 1em;
     text-align: center;
     font-family: 'OswaldRegular', Helvetica, sans-serif;
-    font-size: 1.25em;
-}
+    font-size: 1.25em; }
 
 #confirmation-footer {
-    height: auto;
-}
-
-#confirmation-footer > .action {
+  height: auto; }
+  #confirmation-footer > .action {
     padding: 1em 0;
-    text-align: center;
-}
-
-#confirmation-footer button {
-    width: 16em;
-}
+    text-align: center; }
+  #confirmation-footer button {
+    width: 16em; }
 
 #report-new {
-    background-image: url("assets/white-report-damage.png"), url("/aiq/app/images/black-btn-bg-default.png");
-}
-
-#report-new:active, #report-new.active {
-    background-image: url("assets/white-report-damage.png"), url("/aiq/app/images/black-btn-bg-pressed.png");
-}
+  background-image: url("assets/white-report-damage.png"), url("../aiq/app/images/black-btn-bg-default.png"); }
+  #report-new:active, #report-new.active {
+    background-image: url("assets/white-report-damage.png"), url("../aiq/app/images/black-btn-bg-pressed.png"); }
 
 #back-home {
-    background-image: url("assets/white-curved-left-arrow.png"), url("/aiq/app/images/black-btn-bg-default.png");
-}
-
-#back-home:active, #back-home.active {
-    background-image: url("assets/white-curved-left-arrow.png"), url("/aiq/app/images/black-btn-bg-pressed.png");
-}
+  background-image: url("assets/white-curved-left-arrow.png"), url("../aiq/app/images/black-btn-bg-default.png"); }
+  #back-home:active, #back-home.active {
+    background-image: url("assets/white-curved-left-arrow.png"), url("../aiq/app/images/black-btn-bg-pressed.png"); }
