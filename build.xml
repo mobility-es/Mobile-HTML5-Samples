@@ -7,7 +7,7 @@
 		<exclude name="${src.dir}" />
 	</dirset>
 
-    <target name="build-zip" depends="copy-api">
+    <target name="build-zip">
         <zip destfile="mobile-html5-samples.zip">
             <fileset dir=".">
                 <include name="**/*"/>
@@ -16,28 +16,4 @@
             </fileset>
         </zip>
     </target>
-	<target name="copy-api">
-		<copy todir="." enablemultiplemappings="yes">
-			<fileset dir=".">
-				<include name="${src.dir}/**"/>
-			</fileset>
-			<chainedmapper>
-				<globmapper from="${src.dir}/*" to="*" />
-				<scriptmapper language="javascript">
-				<![CDATA[
-					// Obtain a reference to the dirset
-					var dirSet = project.getReference( "target.dirs" );
-
-					// Now get matching dirs.
-					var ds = dirSet.getDirectoryScanner( project );
-					var includes = ds.getIncludedDirectories( );
-					for ( var i = 0; i < includes.length; i++ )
-					{
-						self.addMappedName( includes[i] + "/" + source );
-					}
-				]]>
-				</scriptmapper>
-			</chainedmapper>
-		</copy>
-	</target>
 </project>
