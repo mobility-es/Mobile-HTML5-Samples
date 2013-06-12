@@ -24,9 +24,6 @@ aiq.app.Controller.sub({
 
         TD.TrainDefectImage.cleanupOrphaned();
 
-        // We call "destroy()" on all controllers to clean up JS memory and DOM
-        aiq.app.Controller.destroyAll();
-
         this.navigate("/ReportDamage-TrainPart");
     },
 
@@ -34,9 +31,6 @@ aiq.app.Controller.sub({
         delete TD.MyReport;
 
         // We don't need to cleanup orphaned images here, since it's taken care of in the home controller
-
-        // We call "destroy()" on all controllers to clean up JS memory and DOM
-        aiq.app.Controller.destroyAll();
 
         this.navigate("/");
     }
