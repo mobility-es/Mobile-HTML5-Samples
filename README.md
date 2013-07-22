@@ -9,7 +9,7 @@ Each directory in this reposiroty is a mobile application that can run locally i
 
 ## How to run samples
 
-Please refer to AIQ8 documentaiton to learn how to deploy these sample application to AIQ8 native clients.
+Please refer to [AIQ8 documentaiton](https://docs.appeariq.com) to learn how to deploy these sample application to AIQ8 native clients.
 
 ## Bug Reporting and Feature Requests
 
