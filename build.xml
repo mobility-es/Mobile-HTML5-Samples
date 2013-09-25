@@ -12,7 +12,6 @@
             <fileset dir=".">
                 <include name="**/*"/>
 				<exclude name="*.*"/>
-				<exclude name="*/aiq/README.md"/>
             </fileset>
         </zip>
     </target>
