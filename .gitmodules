@@ -1,3 +1,0 @@
-[submodule "train-damage"]
-	path = train-damage
-	url = git@github.com:appear/train-damage-tutorial.git
