@@ -1,0 +1,3 @@
+[submodule "train-damage"]
+	path = train-damage
+	url = https://github.com/appear/train-damage-tutorial
