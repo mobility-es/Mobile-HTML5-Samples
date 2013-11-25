@@ -1,6 +1,6 @@
 #Hello World
 
-A basic single view application using the AIQ JS API. This Hello World application displays a simple read-only list of vehicles using AIQ DataSync module.
+A basic single view application using the AIQ JS API. This Hello World application updates the title in the navigation bar once it's loaded.
 
 **Applies To**
 

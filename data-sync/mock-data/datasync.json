@@ -1,0 +1,12 @@
+﻿{
+    "documents": [
+        {
+            "_type": "HW.Vehicle",
+            "name": "mock 1"
+        },
+        {
+            "_type": "HW.Vehicle",
+            "name": "mock 2"
+        }
+    ]
+}

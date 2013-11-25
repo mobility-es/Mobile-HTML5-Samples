@@ -1,0 +1,25 @@
+{
+    "get": [
+        {
+            "query": {
+                "params": {
+                    "type": "UBV"
+                },
+                "headers": {
+                    "Accept": "application/json;q=1.0"
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": [
+                    {
+                        "id": 1
+                    },
+                    {
+                        "id": 2
+                    }
+                ]
+            }
+        }
+    ]
+}
