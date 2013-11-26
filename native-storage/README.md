@@ -1,4 +1,4 @@
-#Data-sync
+#Native Storage
 
 A simple application illustrating the most common Native Storage functions.
 

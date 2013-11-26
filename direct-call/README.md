@@ -1,4 +1,4 @@
-#Data-sync
+#Direct Call
 
 A simple application illustrating a Direct Call corresponding to a GET request.
 

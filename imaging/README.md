@@ -1,4 +1,4 @@
-#Data-sync
+#Imaging
 
 A simple application illustrating how to capture images from the camera or the library using the AIQ API.
 
