@@ -25,7 +25,7 @@ var HW = HW || {};
 
             aiq.messaging.getMessageStatus(id, {
                 success: function(status) {
-                    alert("Message status body: " + status.body);
+                    HW._error("Message status body: " + status.body);
                 }
             });
         });
@@ -42,7 +42,7 @@ var HW = HW || {};
             destination: "traffic-messages"
         }, {
             success: function(status) {
-                alert("Message " + status._id + " has been " + status.state);
+                HW._error("Message " + status._id + " has been " + status.state);
             },
             failure: function(arg) {
                 HW._error("Dispatch failed: " + arg.message);
