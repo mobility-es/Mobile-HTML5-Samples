@@ -3,7 +3,7 @@
 * Global
 *****************************************************************************/
 #imageCache {
-  background-image: url("assets/24x24_black_arrow.png"), url("assets/white-camera.png"), url("assets/white-pictures.png"), url("assets/white-pick-train.png"), url("assets/white-report-damage.png"), url("assets/white-curved-left-arrow.png"), url("assets/progress-bar-1of4.png"), url("assets/progress-bar-2of4.png"), url("assets/progress-bar-3of4.png"), url("assets/progress-bar-4of4.png"), url("assets/50px-list-bg-default.png"), url("assets/50px-list-bg-pressed.png"); }
+  background-image: url("assets/24x24_black_arrow.png"), url("assets/white-camera.png"), url("assets/white-pick-train.png"), url("assets/white-report-damage.png"), url("assets/white-curved-left-arrow.png"), url("assets/progress-bar-1of4.png"), url("assets/progress-bar-2of4.png"), url("assets/progress-bar-3of4.png"), url("assets/progress-bar-4of4.png"), url("assets/50px-list-bg-default.png"), url("assets/50px-list-bg-pressed.png"); }
 
 .AIQ-page {
   background-color: #f2f2f2; }
@@ -31,14 +31,6 @@ footer > a[role="report-damage"] {
   background-image: url("assets/white-report-damage.png"), url("../aiq/app/images/action-bar-btn-bg-default.png"); }
   footer > a[role="report-damage"]:active, footer > a[role="report-damage"].active {
     background-image: url("assets/white-report-damage.png"), url("../aiq/app/images/action-bar-btn-bg-pressed.png"); }
-footer > a[role="take-picture"] {
-  background-image: url("assets/white-camera.png"), url("../aiq/app/images/action-bar-btn-bg-default.png"); }
-  footer > a[role="take-picture"]:active, footer > a[role="take-picture"].active {
-    background-image: url("assets/white-camera.png"), url("../aiq/app/images/action-bar-btn-bg-pressed.png"); }
-footer > a[role="pick-picture"] {
-  background-image: url("assets/white-pictures.png"), url("../aiq/app/images/action-bar-btn-bg-default.png"); }
-  footer > a[role="pick-picture"]:active, footer > a[role="pick-picture"].active {
-    background-image: url("assets/white-pictures.png"), url("../aiq/app/images/action-bar-btn-bg-pressed.png"); }
 
 /******************************************************************************
 * Progress bar
@@ -304,73 +296,7 @@ footer > a[role="pick-picture"] {
     box-sizing: border-box; }
 
 /****************************************************************************
-* Report damage view (step 4 - Pictures)
-*****************************************************************************/
-#frivilligt {
-  float: left;
-  color: #666666;
-  padding: 1.1em 0 0 0.4em; }
-
-#pictures-article {
-  top: 3.125em;
-  clear: both;
-  background-color: white; }
-  #pictures-article.modifying {
-    background-color: #d9d9d9; }
-    #pictures-article.modifying .picture-list {
-      background-color: #d9d9d9; }
-    #pictures-article.modifying .for-greyscale {
-      box-shadow: 0 0 5px 2px #aaa; }
-  #pictures-article h2 {
-    margin: 1em 0 0 1.5em;
-    font-size: 0.9em;
-    font-weight: normal;
-    color: #666666; }
-
-.picture-list {
-  background-color: white; }
-  .picture-list:before, .picture-list:after {
-    content: "";
-    display: table; }
-  .picture-list:after {
-    clear: both; }
-  .picture-list li {
-    width: 50%;
-    float: left; }
-  .picture-list a {
-    display: block;
-    margin: 1em auto;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box; }
-  .picture-list .for-greyscale {
-    background-color: white;
-    max-width: 90%;
-    margin: 0 auto;
-    border: 5px solid white;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    box-shadow: 0 0 5px 2px #e6e6e6;
-    position: relative; }
-  .picture-list .picture {
-    width: 100%; }
-  .picture-list .selected-icon {
-    display: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 1.5em;
-    height: 1.5em;
-    margin-left: -0.75em;
-    margin-top: -0.75em; }
-  .picture-list .selected .picture {
-    opacity: 0.4; }
-  .picture-list .selected .selected-icon {
-    display: block; }
-
-/****************************************************************************
-* Report damage view (step 5 - Summary)
+* Report damage view (step 4 - Summary)
 *****************************************************************************/
 #summary-header {
   border: none; }
@@ -437,7 +363,7 @@ footer > a[role="pick-picture"] {
     box-shadow: 0 0 3px 1px #e6e6e6; }
 
 /****************************************************************************
-* Report damage view (step 6 - Confirmation)
+* Report damage view (step 5 - Confirmation)
 *****************************************************************************/
 #confirmation-article {
   background-color: white;

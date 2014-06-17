@@ -22,15 +22,11 @@ aiq.app.Controller.sub({
             trainNumber: TD.MyReport.trainNumber
         };
 
-        TD.TrainDefectImage.cleanupOrphaned();
-
         this.navigate("/ReportDamage-TrainPart");
     },
 
     onBackHome: function (e) {
         delete TD.MyReport;
-
-        // We don't need to cleanup orphaned images here, since it's taken care of in the home controller
 
         this.navigate("/");
     }

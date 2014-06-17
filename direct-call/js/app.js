@@ -42,16 +42,16 @@ var HW = HW || {};
     };
 
     HW._renderVehicles = function(vehicles) {
-        var $list = $('#list');
+        var $list = $("#list");
         $list.empty();
 
-        $('#error').empty();
+        $("#error").empty();
         vehicles.forEach(function(vehicle) {
-            $list.append('<li>' + vehicle.id + '</li>');
+            $list.append("<li>" + vehicle.id + "</li>");
         });
     };
 
     HW._error = function(message) {
-        $('#error').html(message);
+        $("#error").html(message);
     }
 }());

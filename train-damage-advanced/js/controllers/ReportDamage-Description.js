@@ -35,6 +35,6 @@ aiq.app.Controller.sub({
 
     onNext: function (e) {
         TD.MyReport.defectText = this.$("textarea").val();
-        this.navigate("/ReportDamage-Pictures");
+        this.navigate("/ReportDamage-Summary");
     }
 }).registerAs("/ReportDamage-Description", 'ReportDamage-Description.tmpl');

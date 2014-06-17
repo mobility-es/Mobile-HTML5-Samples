@@ -1,7 +1,7 @@
-/*! aiq-api-mock - v1.0.2- - 2013-11-22 */
+/*! aiq-api-mock - Level5 - v1.2.0- - 2014-06-16 */
 
 var aiq = aiq || {
-    version: '3',
+    version: '5',
 
     /**
      * Read mocked data from `/mock-data/{{name}}.json
@@ -17,10 +17,9 @@ var aiq = aiq || {
         var path = 'mock-data/' + name + '.json';
 
         if (aiq.device.os === 'WinPhone') {
-            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            xhr = new ActiveXObject('Microsoft.XMLHTTP');
             path = '../' + path;
-        }
-        else {
+        } else {
             xhr = new XMLHttpRequest();
         }
 
@@ -45,6 +44,47 @@ var aiq = aiq || {
         return json;
     },
 
+    /**
+     * Remove a callback from given source.
+     *
+     * @note                      Should not be covered by the unittest
+     *                            as exists in the Mocked Api only
+     *
+     * @param {Array} events      Array of event names to unbind from
+     * @param {Function} callback Optional callback to unbind, will unbind
+     *                            all callbacks if not specified
+     * @param {Array} keys        Array of properties (document identifiers
+     *                            or types) to unbind from, will unbind
+     *                            from all properties if empty
+     * @param {Object} source     Source callback mapping to remove a
+     *                            callback from
+     */
+    _removeCallback: function (events, callback, keys, source) {
+        events.forEach(function(event) {
+            var properties = source[event];
+            Object.keys(properties).forEach(function(property) {
+                if ((keys.length === 0) || (keys.indexOf(property) !== -1)) {
+                    if (callback) {
+                        var callbacks = properties[property];
+                        var index;
+                        while ((index = callbacks.indexOf(callback)) !== -1) {
+                            callbacks.splice(index, 1);
+                        }
+                        if (callbacks.length === 0) {
+                            delete properties[property];
+                        } else {
+                            properties[property] = callbacks;
+                        }
+                    } else {
+                        delete properties[property];
+                    }
+                }
+            });
+            if (Object.keys(properties).length === 0) {
+                delete source[event];
+            }
+        });
+    },
 
     /**
      * Test if given url is reachable
@@ -57,18 +97,14 @@ var aiq = aiq || {
      * @param {Function) failure Called when URL is unreachable
      */
     _testURL: function(url, success, failure) {
-        var img = document.createElement('img');
-        img.src = url;
-        img.onload = function() {
-            if (typeof success === 'function') {
-                success();
-            }
-        };
-        img.onerror = function() {
-            if (typeof failure === 'function') {
-                failure();
-            }
-        };
+        var image = new Image();
+        if (success) {
+            image.onload = success;
+        }
+        if (failure) {
+            image.onerror = failure;
+        }
+        image.src = url;
     },
 
     /**
@@ -140,7 +176,11 @@ var aiq = aiq || {
         var result = true;
         var i;
 
-        if (aiq._typeOf(pattern) === 'object' && aiq._typeOf(source) === 'object') {
+        if (pattern === null) {
+            result = (source === null);
+        } else if ((source === null) || (source === undefined)) {
+            result = false;
+        } else if (aiq._typeOf(pattern) === 'object' && aiq._typeOf(source) === 'object') {
             // inception, we have to go deeper >_<
             var keys = Object.keys(pattern);
             for (i = 0; (i < keys.length) && (result); i++) {
@@ -184,9 +224,6 @@ var aiq = aiq || {
         } else if (aiq._typeOf(pattern) === 'number' && aiq._typeOf(source) === 'number') {
             // two numbers, ohai floating points!
             result = Math.abs(source - pattern) < EPSILON;
-        } else if (pattern === null) {
-            // is the source also null?
-            result = (source === null);
         } else {
             result = source.toString().match(pattern.toString()) !== null;
         }
@@ -342,44 +379,16 @@ var aiq = aiq || {
         aiq.datasync = {
             _documents: [],
             _attachments: {},
-            _events: {},
-            _documentEvents: {},
-            _attachmentEvents: {}
+            _events: {}
         };
 
-        var triggerEvent = function (event) {
+        var triggerEvent = function (event, property, args) {
             if (aiq.datasync._events.hasOwnProperty(event)) {
-                aiq.datasync._events[event].forEach(function (callback) {
-                    callback();
-                });
-            }
-        };
-
-        var triggerDocumentEvent = function (event, id, type) {
-            if (aiq.datasync._documentEvents.hasOwnProperty(event)) {
-                var types = aiq.datasync._documentEvents[event];
-                id = id || '__all__';
-                type = type || '__all__';
-                if (types.hasOwnProperty(type)) {
-                    types[type].forEach(function (callback) {
-                        callback(id, true);
+                var properties = aiq.datasync._events[event];
+                if (properties.hasOwnProperty(property)) {
+                    properties[property].forEach(function(callback) {
+                        callback.apply(undefined, args);
                     });
-                }
-            }
-        };
-
-        var triggerAttachmentEvent = function (event, id, name) {
-            if (aiq.datasync._attachmentEvents.hasOwnProperty(event)) {
-                var ids = aiq.datasync._attachmentEvents[event];
-                id = id || '__all__';
-                name = name || '__all__';
-                if (ids.hasOwnProperty(id)) {
-                    var names = ids[id];
-                    if (names.hasOwnProperty(name)) {
-                        names[name].forEach(function (callback) {
-                            callback(id, name);
-                        });
-                    }
                 }
             }
         };
@@ -421,7 +430,7 @@ var aiq = aiq || {
                 document._id = id;
                 document._type = type;
                 aiq.datasync._documents.push(document);
-                triggerDocumentEvent('document-created', id, type);
+                triggerEvent('document-created', type, [id, true]);
 
                 if (typeof settings.success === 'function') {
                     settings.success(document);
@@ -453,7 +462,7 @@ var aiq = aiq || {
                     doc._id = id;
                     doc._type = aiq.datasync._documents[docIndex]._type;
                     aiq.datasync._documents[docIndex] = doc;
-                    triggerDocumentEvent('document-updated', id, doc._type);
+                    triggerEvent('document-updated', doc._type, [id, true]);
 
                     if (typeof settings.success === 'function') {
                         settings.success(doc);
@@ -482,7 +491,7 @@ var aiq = aiq || {
                 } else {
                     var type = aiq.datasync._documents[docIndex]._type;
                     aiq.datasync._documents.splice(docIndex, 1);
-                    triggerDocumentEvent('document-deleted', id, type);
+                    triggerEvent('document-deleted', type, [id, true]);
 
                     if (typeof settings.success === 'function') {
                         settings.success();
@@ -504,8 +513,8 @@ var aiq = aiq || {
                         if (doc._type === type) {
                             if (!settings.filter ||
                                 aiq._doesSourceMatchPattern(doc, settings.filter)) {
-                                
-                                // Document object has to be copied because our nasty spine
+
+                                // Document object has to be copied because our spine
                                 // model implementation renames _id fields to id.
                                 docs.push(aiq._cloneObject(doc));
                             }
@@ -513,7 +522,7 @@ var aiq = aiq || {
                     });
                     settings.success(docs);
                 } catch (error) {
-                    aiq._failWithMessage(settings.failure, error);
+                    aiq._failWithMessage(settings.error, error);
                 }
             }
         };
@@ -557,7 +566,8 @@ var aiq = aiq || {
                 resourceUrl: descriptor.resourceUrl
             };
             aiq.datasync._attachments[id] = attachments;
-            triggerAttachmentEvent('attachment-available', id, name);
+            triggerEvent('attachment-available', id, [id, name]);
+            triggerEvent('attachment-available', id + ':' + name, [id, name]);
 
             if (typeof callback === 'function') {
                 callback({
@@ -648,7 +658,7 @@ var aiq = aiq || {
                 // Let's make sure that the document exists
                 aiq.datasync.getDocument(id, {
                     success: function () {
-                        var attachments = aiq.datasync._attachments[id];
+                        var attachments = aiq.datasync._attachments[id] || {};
                         if (attachments.hasOwnProperty(name)) {
                             delete attachments[name];
 
@@ -697,94 +707,103 @@ var aiq = aiq || {
         // aiq.datasync.synchronize()
         aiq.datasync.synchronize = function () {
             setTimeout(function () {
-                triggerEvent('synchronization-complete');
+                triggerEvent('synchronization-complete', '__global', []);
             }, 1500);
+        };
+
+        // aiq.datasync.bind()
+        aiq.datasync.bind = function (event, settings) {
+            if (typeof event !== 'string') {
+                console.warn("bind failed (event must be a string)");
+                return;
+            }
+            if (typeof settings !== 'object') {
+                console.warn("bind failed (settings must be an object)");
+                return;
+            }
+            if (typeof settings.callback !== 'function') {
+                console.warn("bind failed (settings.callback must be a function)");
+                return;
+            }
+
+            var registerCallback = function(event, property, callback) {
+                var properties = aiq.datasync._events[event] || {};
+                var callbacks = properties[property] || [];
+                callbacks.push(callback);
+                properties[property] = callbacks;
+                aiq.datasync._events[event] = properties;
+            };
+
+            if (event.indexOf('document-') === 0) {
+                // document event
+                if (typeof settings._type !== 'string') {
+                    console.warn("bind failed (settings._type must be a string)");
+                    return;
+                }
+                registerCallback(event, settings._type, settings.callback);
+            } else if (event.indexOf('attachment-') === 0) {
+                // attachment event
+                if (typeof settings._id !== 'string') {
+                    console.warn("bind failed (setting._id must be a string)");
+                    return;
+                }
+                if (typeof settings.name === 'string') {
+                    registerCallback(event, settings._id + ':' + settings.name, settings.callback);
+                } else {
+                    registerCallback(event, settings._id, settings.callback);
+                }
+            } else if (event.indexOf('synchronization-') === 0) {
+                // synchronization event
+                registerCallback(event, '__global', settings.callback);
+            }
         };
 
         // aiq.datasync.bindDocumentEvent()
         aiq.datasync.bindDocumentEvent = function (event, type, callback) {
-            if ((typeof event === 'string') && (typeof callback === 'function')) {
-                type = type || '__all__';
-
-                var types = aiq.datasync._documentEvents[event] || {};
-                var callbacks = types[type] || [];
-                callbacks.push(callback);
-
-                types[type] = callbacks;
-                aiq.datasync._documentEvents[event] = types;
-            }
+            console.warn("aiq.datasync.bindDocumentEvent() is deprecated, use aiq.datasync.bind() instead");
+            aiq.datasync.bind(event, {
+                _type: type,
+                callback: callback
+            });
         };
 
         // aiq.datasync.bindAttachmentEvent()
         aiq.datasync.bindAttachmentEvent = function (event, id, name, callback) {
-            if ((typeof event === 'string') && (typeof callback === 'function')) {
-                id = id || '__all__';
-                name = name || '__all__';
-
-                var ids = aiq.datasync._attachmentEvents || {};
-                var names = ids[id] || {};
-                var callbacks = names[name] || [];
-                callbacks.push(callback);
-
-                names[name] = callbacks;
-                ids[id] = names;
-                aiq.datasync._attachmentEvents[event] = ids;
-            }
+            console.warn("aiq.datasync.bindAttachmentEvent() is deprecated, use aiq.datasync.bind() instead");
+            aiq.datasync.bind(event, {
+                _id: id,
+                name: name,
+                callback: callback
+            });
         };
 
         // aiq.datasync.bindEvent()
         aiq.datasync.bindEvent = function (event, callback) {
-            if ((typeof event === 'string') && (typeof callback === 'function')) {
-                var callbacks = aiq.datasync._events[event] || [];
-                callbacks.push(callback);
-
-                aiq.datasync._events[event] = callbacks;
-            }
+            console.warn("aiq.datasync.bindEvent() is deprecated, use bind() instead");
+            aiq.datasync.bind(event, {
+                callback: callback
+            });
         };
 
-        // aiq.datasync.unbind()
-        aiq.datasync.unbind = function (callback) {
-            if (typeof callback === 'function') {
-                // var event;
-                var index;
-                var callbacks;
-
-                Object.keys(aiq.datasync._events).forEach(function (event) {
-                    callbacks = aiq.datasync._events[event];
-                    while ((index = callbacks.indexOf(callback)) !== -1) {
-                        callbacks.splice(index, 1);
-                    }
-                    aiq.datasync._events[event] = callbacks;
-                });
-
-                Object.keys(aiq.datasync._documentEvents).forEach(function (event) {
-                    var types = aiq.datasync._documentEvents[event];
-                    Object.keys(types).forEach(function (type) {
-                        callbacks = types[type];
-                        while ((index = callbacks.indexOf(callback)) !== -1) {
-                            callbacks.splice(index, 1);
-                        }
-                        types[type] = callbacks;
-
-                    });
-                    aiq.datasync._documentEvents[event] = types;
-                });
-
-                Object.keys(aiq.datasync._attachmentEvents).forEach(function (event) {
-                    var ids = aiq.datasync._attachmentEvents[event];
-                    Object.keys(ids).forEach(function (id) {
-                        var names = ids[id];
-                        Object.keys(names).forEach(function (name) {
-                            callbacks = names[name];
-                            while ((index = callbacks.indexOf(callback)) !== -1) {
-                                callbacks.splice(index, 1);
-                            }
-                            names[name] = callbacks;
-                        });
-                        ids[id] = names;
-                    });
-                    aiq.datasync._attachmentEvents[event] = ids;
-                });
+        // aiq.datasync.unbind(callback)
+        // aiq.datasync.unbind(event, [settings])
+        aiq.datasync.unbind = function (callbackOrEvent, settingsOrNil) {
+            if (typeof callbackOrEvent === 'function') {
+                // the old way, callback only
+                console.warn('aiq.datasync.unbind(callback) is deprecated, use aiq.datasync.unbind(event, [settings]) instead');
+                aiq._removeCallback(Object.keys(aiq.datasync._events), callbackOrEvent, [], aiq.datasync._events);
+            } else if (typeof callbackOrEvent === 'string') {
+                // the new way, event name plus optional map of additional arguments
+                settingsOrNil = settingsOrNil || {};
+                var callback = settingsOrNil.callback;
+                var keys = [];
+                if (typeof settingsOrNil._id === 'string') {
+                    keys.push(settingsOrNil._id);
+                }
+                if (typeof settingsOrNil._type === 'string') {
+                    keys.push(settingsOrNil._type);
+                }
+                aiq._removeCallback([callbackOrEvent], callback, keys, aiq.datasync._events);
             }
         };
 
@@ -821,13 +840,13 @@ var aiq = aiq || {
     }
 })();
 
-(function() {
+(function () {
     'use strict';
-    
-    if (! aiq.client) {
+
+    if (!aiq.client) {
         var MAX_BUTTONS = 3;
-        
-        var createButton = function(id, image, label, enabled, visible) {
+
+        var createButton = function (id, image, label, enabled, visible) {
             var button = document.createElement('a');
             button.setAttribute('data-id', id);
             button.setAttribute('class', 'aiq-bar-button-item');
@@ -849,7 +868,7 @@ var aiq = aiq || {
             button.style.backgroundColor = 'white';
             button.style.fontFamily = 'Arial';
 
-            if (! visible) {
+            if (!visible) {
                 button.style.display = 'none';
             }
 
@@ -874,44 +893,69 @@ var aiq = aiq || {
             }
             img.setAttribute('src', image);
             button.appendChild(img);
-            
+
             return button;
         };
 
-        var refreshCustomButtons = function() {
-            var buttons = document.getElementsByClassName('aiq-bar-button-item');
-            for (var i = 0; i < buttons.length; i++) {
-                var button = buttons[i];
+        var getButtons = function () {
+            return [].slice.call(document.getElementsByClassName('aiq-bar-button-item'));
+        };
+
+        var getButtonDescriptors = function () {
+            var buttonDescriptors = [];
+
+            var buttons = getButtons();
+            buttons.forEach(function (button) {
+                var descriptor = {
+                    id: button.getAttribute('data-id'),
+                    image: button.children[0].getAttribute('src'),
+                    label: button.innerText,
+                    enabled: (button.style.pointerEvents !== 'none'),
+                    visible: (button.style.display !== 'none'),
+                    onClick: button.onclick
+                };
+                buttonDescriptors.push(descriptor);
+            });
+
+            return buttonDescriptors;
+        };
+
+        var refreshNavbar = function (buttonDescriptors) {
+            var _buttons = getButtons();
+            _buttons.forEach(function (button) {
                 if (button.getAttribute('data-id') !== 'back') {
                     document.body.removeChild(button);
                 }
-            }
+            });
 
             var position = -1;
-            aiq.client.navbar._buttons.forEach(function(descriptor) {
+            buttonDescriptors.forEach(function (descriptor) {
+                var button = createButton(
+                    descriptor.id,
+                    descriptor.image,
+                    descriptor.label,
+                    descriptor.enabled,
+                    descriptor.visible);
+                button.style.right = position + 'px';
                 if (descriptor.visible) {
-                    var button = createButton(
-                        descriptor.id,
-                        descriptor.image,
-                        descriptor.label,
-                        descriptor.enabled,
-                        descriptor.visible);
-                    button.style.right = position + 'px';
                     // magic numbers are magic just to ensure that two
                     // neighboring buttons share only one border
                     if (descriptor.label) {
                         position += 109;
-                    } else {
+                    }
+                    else {
                         position += 27;
                     }
-                    button.onclick = descriptor.onClick;
-                    document.body.appendChild(button);
                 }
+                button.onclick = descriptor.onClick;
+                document.body.appendChild(button);
             });
         };
 
-        var countVisibleButtons = function() {
-            return aiq.client.navbar._buttons.reduce(function(previous, current) {
+        var countVisibleButtons = function () {
+            var buttonDescriptors = getButtonDescriptors();
+
+            return buttonDescriptors.reduce(function (previous, current) {
                 return previous + (current.visible ? 1 : 0);
             }, 0);
         };
@@ -921,15 +965,15 @@ var aiq = aiq || {
         };
 
         // aiq.client.closeApp()
-        aiq.client.closeApp = function() {
+        aiq.client.closeApp = function () {
             // do nothing
         };
 
         // aiq.client.getAppArguments()
-        aiq.client.getAppArguments = function() {
+        aiq.client.getAppArguments = function () {
             var args = {};
             if (window.location.search.length !== 0) {
-                window.location.search.substring(1).split('&').forEach(function(param) {
+                window.location.search.substring(1).split('&').forEach(function (param) {
                     var pair = param.split('=');
                     args[pair[0]] = (pair.length === 2) ? pair[1] : null;
                 });
@@ -938,33 +982,53 @@ var aiq = aiq || {
         };
 
         // aiq.client.setAppTitle(title)
-        aiq.client.setAppTitle = function(title) {
+        aiq.client.setAppTitle = function (title) {
             document.title = title;
         };
 
-        aiq.client.navbar = {
-            _buttons: []
+        // aiq.client.getCurrentUser(callbacks)
+        aiq.client.getCurrentUser = function (callbacks) {
+            callbacks = callbacks || {};
+
+            if (aiq.client.hasOwnProperty('_userProfile')) {
+                if (typeof callbacks.success === 'function') {
+                    callbacks.success(aiq._cloneObject(aiq.client._userProfile));
+                }
+            } else {
+                if (typeof callbacks.error === 'function') {
+                    if (aiq.client.hasOwnProperty('_userProfileError')) {
+                        callbacks.error({
+                            message: aiq.client._userProfileError
+                        });
+                    } else {
+                        callbacks.error({
+                            message: 'Missing user profile'
+                        });
+                    }
+                }
+            }
         };
+
+        aiq.client.navbar = {};
 
         // private function, used by the test suite to clean the
         // navigation bar, though it doesn't call any public APIs
-        aiq.client.navbar._clean = function(callback) {
+        aiq.client.navbar._clean = function (callback) {
             var buttons = document.getElementsByClassName('aiq-bar-button-item');
-            for (var i = 0; i < buttons.length; i++) {
+            for (var i = 0; i < buttons.length;) {
                 document.body.removeChild(buttons[i]);
             }
-            this._buttons = [];
-            
+
             if (typeof callback === 'function') {
                 callback();
             }
         };
 
-        aiq.client.navbar.addButton = function(properties, settings) {
+        aiq.client.navbar.addButton = function (properties, settings) {
             properties = properties || {};
             settings = settings || {};
 
-            if (! properties.hasOwnProperty('image')) {
+            if (!properties.hasOwnProperty('image')) {
                 aiq._failWithMessage(settings.failure, 'Image not specified');
                 return;
             }
@@ -972,10 +1036,10 @@ var aiq = aiq || {
                 aiq._failWithMessage(settings.failure, 'Callback not specified');
                 return;
             }
-            if (! properties.hasOwnProperty('enabled')) {
+            if (!properties.hasOwnProperty('enabled')) {
                 properties.enabled = true;
             }
-            if (! properties.hasOwnProperty('visible')) {
+            if (!properties.hasOwnProperty('visible')) {
                 properties.visible = true;
             }
 
@@ -984,33 +1048,37 @@ var aiq = aiq || {
                 return;
             }
 
+            var buttonDescriptors = getButtonDescriptors();
             var descriptor = {
-                id: this._buttons.length.toString(),
+                id: Date.now().toString(16) + '_' + buttonDescriptors.length,
                 image: properties.image,
                 label: properties.label,
                 enabled: properties.enabled,
                 visible: properties.visible,
                 onClick: properties.onClick
             };
-            this._buttons.push(descriptor);
-            
-            refreshCustomButtons();
-            
+            buttonDescriptors.push(descriptor);
+
+            refreshNavbar(buttonDescriptors);
+
             if (typeof settings.success === 'function') {
                 settings.success(aiq._cloneObject(descriptor));
             }
         };
 
-        aiq.client.navbar.updateButton = function(id, properties, settings) {
+        aiq.client.navbar.updateButton = function (id, properties, settings) {
             settings = settings || {};
 
             if (typeof id !== 'string') {
                 aiq._failWithMessage(settings.failure, 'Identifier not specified');
-            } else {
-                var result = this._buttons.some(function(descriptor) {
+            }
+            else {
+                var buttonDescriptors = getButtonDescriptors();
+
+                var result = buttonDescriptors.some(function (descriptor) {
                     if (descriptor.id === id) {
                         if (properties.hasOwnProperty('visible')) {
-                            if ((properties.visible) && (countVisibleButtons() === MAX_BUTTONS)) {
+                            if ((!descriptor.visible) && (properties.visible) && (countVisibleButtons() === MAX_BUTTONS)) {
                                 aiq._failWithMessage(settings.failure, 'Too many visible buttons');
                                 return true;
                             } else {
@@ -1026,75 +1094,141 @@ var aiq = aiq || {
                         if (properties.hasOwnProperty('enabled')) {
                             descriptor.enabled = properties.enabled;
                         }
-                        refreshCustomButtons();
+                        refreshNavbar(buttonDescriptors);
                         if (typeof settings.success === 'function') {
                             settings.success(aiq._cloneObject(descriptor));
                         }
                         return true;
-                    } else {
+                    }
+                    else {
                         return false;
                     }
                 }, this);
-                if (! result) {
+                if (!result) {
                     aiq._failWithMessage(settings.failure, 'Button not found');
                 }
             }
         };
 
-        aiq.client.navbar.deleteButton = function(id, settings) {
+        aiq.client.navbar.deleteButton = function (id, settings) {
             settings = settings || {};
-            
+
             if (typeof id !== 'string') {
                 aiq._failWithMessage(settings.failure, 'Identifier not specified');
-            } else {
-                var result = this._buttons.some(function(descriptor, index) {
+            }
+            else {
+                var buttonDescriptors = getButtonDescriptors();
+
+                var result = buttonDescriptors.some(function (descriptor, index) {
                     if (descriptor.id === id) {
-                        this._buttons.splice(index, 1);
-                        refreshCustomButtons();
+                        buttonDescriptors.splice(index, 1);
+                        refreshNavbar(buttonDescriptors);
+
                         if (typeof settings.success === 'function') {
                             settings.success();
                         }
                         return true;
-                    } else {
+                    }
+                    else {
                         return false;
                     }
                 }, this);
-                if (! result) {
+                if (!result) {
                     aiq._failWithMessage(settings.failure, 'Button not found');
                 }
             }
         };
 
-        aiq.client.navbar.getButton = function(id, settings) {
+        aiq.client.navbar.getButton = function (id, settings) {
             settings = settings || {};
-            
+
             if (typeof id !== 'string') {
                 aiq._failWithMessage(settings.failure, 'Identifier not specified');
-            } else if (typeof settings.success === 'function') {
-                var found = this._buttons.some(function(descriptor) {
+            }
+            else if (typeof settings.success === 'function') {
+                var buttonDescriptors = getButtonDescriptors();
+
+                var found = buttonDescriptors.some(function (descriptor) {
                     if (descriptor.id === id) {
                         settings.success(aiq._cloneObject(descriptor));
                         return true;
-                    } else {
+                    }
+                    else {
                         return false;
                     }
                 });
-                if (! found) {
+                if (!found) {
                     aiq._failWithMessage(settings.failure, 'Button not found');
                 }
             }
         };
 
-        aiq.client.navbar.getButtons = function(settings) {
+        aiq.client.navbar.getButtons = function (settings) {
             settings = settings || {};
 
             if (typeof settings.success === 'function') {
-                settings.success(this._buttons.map(aiq._cloneObject));
+                var buttonDescriptors = getButtonDescriptors();
+
+                settings.success(buttonDescriptors);
             }
         };
     }
-})();
 
+    var json = aiq._getMockData('client');
+    if ((json) && (typeof json === 'object') &&
+        (json.currentUser) && (typeof json.currentUser === 'object')) {
+        var user = json.currentUser;
+        var currentUser = {
+            _id: user._id || Date.now().toString(16),
+            username: user.username
+        };
+
+        if (typeof currentUser.username === 'string') {
+            if (typeof user.email === 'string') {
+                currentUser.email = user.email;
+            }
+            if (typeof user.fullName === 'string') {
+                currentUser.fullName = user.fullName;
+            }
+            if ((user.profile) && (typeof user.profile === 'object')) {
+                currentUser.profile = user.profile;
+            } else {
+                currentUser.profile = {};
+            }
+            if (user.roles instanceof Array) {
+                currentUser.roles = user.roles;
+            } else {
+                currentUser.roles = [];
+            }
+            if (user.groups instanceof Array) {
+                currentUser.groups = user.groups;
+            } else {
+                currentUser.groups = [];
+            }
+            if (user.permissions instanceof Array) {
+                currentUser.permissions = user.permissions;
+            } else {
+                currentUser.permissions = [];
+            }
+            aiq.client._userProfile = currentUser;
+        }
+        else {
+            aiq.client._userProfileError = 'Username not specified';
+        }
+    }
+    else {
+        aiq.client._userProfile = {
+            _id: '_userprofile',
+            username: 'jdoe',
+            email: 'jdoe@example.org',
+            fullName: 'John Doe',
+            profile: {},
+            roles: [],
+            groups: [],
+            permissions: []
+        };
+    }
+})();
 (function() {
     'use strict';
     
@@ -1528,20 +1662,21 @@ var aiq = aiq || {
 
 (function() {
     'use strict';
-    
+
     if (! aiq.messaging) {
         aiq.messaging = {
             _serverOriginatedMessages: [],
+            _serverOriginatedAttachments: {},
             _clientOriginatedMessages: [],
             _events: {}
         };
 
-        var triggerEvent = function(event, typeOrDestination, id) {
+        var triggerEvent = function(event, property, args) {
             if (aiq.messaging._events.hasOwnProperty(event)) {
-                var typesOrDestinations = aiq.messaging._events[event];
-                if (typesOrDestinations.hasOwnProperty(typeOrDestination)) {
-                    typesOrDestinations[typeOrDestination].forEach(function(callback) {
-                        callback(id);
+                var properties = aiq.messaging._events[event];
+                if (properties.hasOwnProperty(property)) {
+                    properties[property].forEach(function(callback) {
+                        callback.apply(undefined, args);
                     });
                 }
             }
@@ -1549,7 +1684,6 @@ var aiq = aiq || {
 
         // private method
         aiq.messaging._clean = function(callback) {
-            aiq.messaging._serverOriginatedMessages = [];
             aiq.messaging._clientOriginatedMessages = [];
             aiq.messaging._events = {};
             if (typeof callback === 'function') {
@@ -1557,10 +1691,69 @@ var aiq = aiq || {
             }
         };
 
+        // aiq.messaging.getAttachment(id, name, callbacks)
+        aiq.messaging.getAttachment = function(id, name, callbacks) {
+            callbacks = callbacks || {};
+
+            if (typeof id !== 'string') {
+                aiq._failWithMessage(callbacks.failure, 'Invalid identifier');
+            } else if (typeof name !== 'string') {
+                aiq._failWithMessage(callbacks.failure, 'Invalid name');
+            } else if (typeof callbacks.success === 'function') {
+                // Let's make sure that the message exists
+                aiq.messaging.getMessage(id, {
+                    success: function() {
+                        var attachments = aiq.messaging._serverOriginatedAttachments[id] || {};
+                        var attachment = attachments[name];
+                        if (attachment) {
+                            callbacks.success({
+                                name: name,
+                                contentType: attachment.contentType,
+                                resourceUrl: attachment.resourceUrl,
+                                state: 'available'
+                            });
+                        } else {
+                            aiq._failWithMessage(callbacks.failure, 'Attachment not found');
+                        }
+                    },
+                    failure: callbacks.failure,
+                    error: callbacks.error
+                });
+            }
+        };
+
+
+        // aiq.messaging.getAttachments(id, callbacks)
+        aiq.messaging.getAttachments = function(id, callbacks) {
+            callbacks = callbacks || {};
+
+            if (typeof id !== 'string') {
+                aiq._failWithMessage(callbacks.failure, 'Invalid identifier');
+            } else if (typeof callbacks.success === 'function') {
+                // Let's make sure that the document exists
+                aiq.messaging.getMessage(id, {
+                    success: function() {
+                        var attachments = aiq.messaging._serverOriginatedAttachments[id] || {};
+                        var result = Object.keys(attachments).map(function(name) {
+                            return {
+                                name: name,
+                                contentType: attachments[name].contentType,
+                                resourceUrl: attachments[name].resourceUrl,
+                                state: 'available'
+                            };
+                        });
+                        callbacks.success(result);
+                    },
+                    failure: callbacks.failure,
+                    error: callbacks.error
+                });
+            }
+        };
+
         // aiq.messaging.getMessages(type, [settings])
         aiq.messaging.getMessages = function(type, settings) {
             settings = settings || {};
-            
+
             if (typeof type !== 'string') {
                 aiq._failWithMessage(settings.failure, 'Invalid type');
             } else if (typeof settings.success === 'function') {
@@ -1603,6 +1796,33 @@ var aiq = aiq || {
             }
         };
 
+        // aiq.messaging.deleteMessage(id, [settings])
+        aiq.messaging.deleteMessage = function(id, settings) {
+            settings = settings || {};
+
+            if (typeof id !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid identifier');
+            } else {
+                var messageIndex = -1;
+                aiq.messaging._serverOriginatedMessages.some(function(message, index) {
+                    if (message._id === id) {
+                        messageIndex = index;
+                        return true;
+                    }
+                    return false;
+                });
+                if (messageIndex === -1) {
+                    aiq._failWithMessage(settings.failure, 'Message not found');
+                } else {
+                    aiq.messaging._serverOriginatedMessages.splice(messageIndex, 1);
+                    delete aiq.messaging._serverOriginatedAttachments[id];
+                    if (typeof settings.success === 'function') {
+                        settings.success();
+                    }
+                }
+            }
+        };
+
         // aiq.messaging.markMessageAsRead(id, [settings])
         aiq.messaging.markMessageAsRead = function(id, settings) {
             settings = settings || {};
@@ -1632,35 +1852,87 @@ var aiq = aiq || {
             }
         };
 
-        // aiq.messaging.bindMessageEvent(event, typeOrDestination, [callback])
-        aiq.messaging.bindMessageEvent = function(event, typeOrDestination, callback) {
-            if ((typeof event === 'string') && (typeof callback === 'function')) {
-                typeOrDestination = typeOrDestination || '__all__';
+        // aiq.messaging.bind(event, settings)
+        aiq.messaging.bind = function(event, settings) {
+            if (typeof event !== 'string') {
+                return;
+            }
+            if (typeof settings !== 'object') {
+                return;
+            }
+            if (typeof settings.callback !== 'function') {
+                return;
+            }
 
-                var typesOrDestinations = aiq.messaging._events[event] || {};
-                var callbacks = typesOrDestinations[typeOrDestination] || [];
+            var registerCallback = function(event, property, callback) {
+                var properties = aiq.messaging._events[event] || {};
+                var callbacks = properties[property] || [];
                 callbacks.push(callback);
+                properties[property] = callbacks;
+                aiq.messaging._events[event] = properties;
+            };
 
-                typesOrDestinations[typeOrDestination] = callbacks;
-                aiq.messaging._events[event] = typesOrDestinations;
+            if (['message-received', 'message-updated', 'message-expired'].indexOf(event) !== -1) {
+                // SO message event
+                if (typeof settings._id === 'string') {
+                    registerCallback(event, settings._id, settings.callback);
+                    if (typeof settings.type === 'string') {
+                        registerCallback(event, settings.type, settings.callback);
+                    }
+                }
+            } else if (['message-queued', 'message-accepted', 'message-rejected', 'message-delivered', 'message-failed'].indexOf(event) !== -1) {
+                // CO message event
+                if (typeof settings.destination !== 'string') {
+                    return;
+                }
+                registerCallback(event, settings.destination, settings.callback);
+            } else if (['attachment-available', 'attachment-unavailable', 'attachment-failed'].indexOf(event) !== -1) {
+                // SO attachment event
+                if (typeof settings._id !== 'string') {
+                    return;
+                }
+                registerCallback(event, settings._id, settings.callback);
             }
         };
 
-        // aiq.messaging.unbind([callback])
-        aiq.messaging.unbind = function(callback) {
-            if (typeof callback === 'function') {
-                Object.keys(aiq.messaging._events).forEach(function(event) {
-                    var typesOrDestinations = aiq.messaging._events[event];
-                    Object.keys(typesOrDestinations).forEach(function(typeOrDestination) {
-                        var callbacks = typesOrDestinations[typeOrDestination];
-                        var index;
-                        while ((index = callbacks.indexOf(callback)) !== -1) {
-                            callbacks.splice(index, 1);
-                        }
-                        typesOrDestinations[typeOrDestination] = callbacks;
-                    });
-                    aiq.messaging._events[event] = typesOrDestinations;
+        // aiq.messaging.bindMessageEvent(event, typeOrDestination, callback);
+        aiq.messaging.bindMessageEvent = function(event, typeOrDestination, callback) {
+            console.warn("aiq.messaging.bindMessageEvent() is deprecated, use aiq.messaging.bind() instead");
+            if (['message-received', 'message-updated', 'message-expired'].indexOf(event) !== -1) {
+                aiq.messaging.bind(event, {
+                    type: typeOrDestination,
+                    callback: callback
                 });
+            } else {
+                aiq.messaging.bind(event, {
+                    destination: typeOrDestination,
+                    callback: callback
+                });
+            }
+        };
+
+        // aiq.messaging.unbind(callback)
+        // aiq.messaging.unbind(event, [settings])
+        aiq.messaging.unbind = function(callbackOrEvent, settingsOrNil) {
+            if (typeof callbackOrEvent === 'function') {
+                // the old way, callback only
+                console.warn('aiq.messaging.unbind(callback) is deprecated, use aiq.messaging.unbind(event, [settings]) instead');
+                aiq._removeCallback(Object.keys(aiq.messaging._events), callbackOrEvent, [], aiq.messaging._events);
+            } else if (typeof callbackOrEvent === 'string') {
+                // the new way, event name plus optional map of additional arguments
+                settingsOrNil = settingsOrNil || {};
+                var callback = settingsOrNil.callback;
+                var keys = [];
+                if (typeof settingsOrNil._id === 'string') {
+                    keys.push(settingsOrNil._id);
+                }
+                if (typeof settingsOrNil.type === 'string') {
+                    keys.push(settingsOrNil.type);
+                }
+                if (typeof settingsOrNil.destination === 'string') {
+                    keys.push(settingsOrNil.destination);
+                }
+                aiq._removeCallback([callbackOrEvent], callback, keys, aiq.messaging._events);
             }
         };
 
@@ -1675,7 +1947,7 @@ var aiq = aiq || {
                 attachments = [];
                 callbacks = attachmentsOrCallbacks;
             }
-            
+
             if (typeof descriptor !== 'object') {
                 aiq._failWithMessage(callbacks.failure, 'Descriptor not specified');
             } else if (! descriptor.hasOwnProperty('payload')) {
@@ -1737,7 +2009,7 @@ var aiq = aiq || {
                         if ((message.state === 'delivered') || (message.state === 'failed')) {
                             message.body = status.body;
                         }
-                        triggerEvent('message-' + message.state, message.destination, message._id);
+                        triggerEvent('message-' + message.state, message.destination, [message._id]);
                         if (statuses.length !== 0) {
                             status = statuses.shift();
                             scheduleStatusChange(setMessageStatus);
@@ -1777,7 +2049,7 @@ var aiq = aiq || {
         // aiq.messaging.getMessageStatus(id, callbacks)
         aiq.messaging.getMessageStatus = function(id, callbacks) {
             callbacks = callbacks || {};
-            
+
             if (typeof id !== 'string') {
                 aiq._failWithMessage(callbacks.failure, 'Invalid identifier');
             } else if (typeof callbacks.success === 'function') {
@@ -1794,45 +2066,78 @@ var aiq = aiq || {
             }
         };
 
-        // aiq.messaging.getMessageStatuses(state, callbacks)
-        aiq.messaging.getMessageStatuses = function(state, callbacks) {
-            callbacks = callbacks || {};
+        // aiq.messaging.getMessageStatuses(destination, settings)
+        aiq.messaging.getMessageStatuses = function(destination, settings) {
+            settings = settings || {};
 
-            if (typeof state !== 'string') {
-                aiq._failWithMessage(callbacks.failure, 'Invalid state');
-            } else if ((state !== 'queued')    &&
-                       (state !== 'accepted')  &&
-                       (state !== 'rejected')  &&
-                       (state !== 'delivered') &&
-                       (state !== 'failed')) {
-                aiq._failWithMessage(callbacks.failure, 'Invalid state');
-            } else if (typeof callbacks.success === 'function') {
+            if (typeof destination !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid destination');
+            } else if (typeof settings.success === 'function') {
                 var result = aiq.messaging._clientOriginatedMessages.filter(function(message) {
-                    if (message.state === state) {
+                    if (((typeof settings.filter !== 'object') ||
+                         (aiq._doesSourceMatchPattern(message, settings.filter))) &&
+                        (message.destination === destination)) {
                         return message;
                     }
                 });
-                callbacks.success(result);
+                settings.success(result);
             }
         };
-        
+
         var json = aiq._getMockData('messaging');
         if (json) {
+            var parseMessages = function(root) {
+                root.forEach(function(message) {
+                    if (typeof message.type === 'string') {
+                        aiq.messaging._serverOriginatedMessages.push({
+                            _id: message._id || Date.now() + '_' + aiq.messaging._serverOriginatedMessages.length,
+                            type: message.type,
+                            created: message.created || 0,
+                            activeFrom: message.activeFrom || 0,
+                            timeToLive: message.timeToLive || 0,
+                            urgent: message.urgent || false,
+                            read: message.read || false,
+                            payload: message.payload
+                        });
+                    }
+                });
+            };
+
             aiq.messaging._serverOriginatedMessages = [];
-            json.forEach(function(message) {
-                if (typeof message.type === 'string') {
-                    aiq.messaging._serverOriginatedMessages.push({
-                        _id: Date.now() + '_' + aiq.messaging._serverOriginatedMessages.length,
-                        type: message.type,
-                        created: message.created || 0,
-                        activeFrom: message.activeFrom || 0,
-                        timeToive: message.timeToLive || 0,
-                        urgent: message.urgent || false,
-                        read: false,
-                        payload: message.payload
+            if (json.hasOwnProperty('messages')) {
+                // new format with attachments
+                parseMessages(json.messages);
+
+                if (json.hasOwnProperty('attachments')) {
+                    Object.keys(json.attachments).forEach(function(id) {
+                        aiq.messaging.getMessage(id, {
+                            success: function() {
+                                var attachments = json.attachments[id];
+                                Object.keys(attachments).forEach(function(name) {
+                                    var attachment = attachments[name];
+                                    if ((typeof attachment.contentType === 'string') &&
+                                        (typeof attachment.path === 'string')) {
+                                        var url = 'mock-data/attachments/' + attachment.path;
+                                        aiq._testURL(url, function() {
+                                            var originalAttachments = aiq.messaging._serverOriginatedAttachments[id] || {};
+                                            if (! originalAttachments.hasOwnProperty(name)) {
+                                                originalAttachments[name] = {
+                                                    contentType: attachment.contentType,
+                                                    resourceUrl: url
+                                                };
+                                                aiq.messaging._serverOriginatedAttachments[id] = originalAttachments;
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
                     });
                 }
-            });
+            } else {
+                // old format
+                parseMessages(json);
+            }
         }
     }
 })();
@@ -1842,7 +2147,8 @@ var aiq = aiq || {
 
     if (!aiq.storage) {
         aiq.storage = {
-            _documents: []
+            _documents: [],
+            _attachments: []
         };
 
         // aiq.storage.getDocument(id, [settings])
@@ -1878,6 +2184,11 @@ var aiq = aiq || {
                 aiq._failWithMessage(settings.failure, 'Invalid fields');
             } else {
                 var id = fields._id || Date.now().toString(16) + '_' + aiq.storage._documents.length;
+                if (aiq.storage._documents.some(function(doc) { return doc._id === id; })) {
+                    aiq._failWithMessage(settings.failure, 'Document already exists');
+                    return;
+                }
+                
                 var document = aiq._cloneObject(fields, '^_');
                 document._id = id;
                 document._type = type;
@@ -1939,7 +2250,6 @@ var aiq = aiq || {
                 if (docIndex === -1) {
                     aiq._failWithMessage(settings.failure, 'Document not found');
                 } else {
-                    var type = aiq.storage._documents[docIndex]._type;
                     aiq.storage._documents.splice(docIndex, 1);
 
                     if (typeof settings.success === 'function') {
@@ -1956,19 +2266,192 @@ var aiq = aiq || {
             if (typeof type !== 'string') {
                 aiq._failWithMessage(settings.failure, 'Invalid type');
             } else if (typeof settings.success === 'function') {
-                var docs = [];
-                aiq.storage._documents.forEach(function (doc) {
-                    if (doc._type === type) {
-                        if (!settings.filter ||
-                            aiq._doesSourceMatchPattern(doc, settings.filter)) {
+                try {
+                    var docs = [];
+                    aiq.storage._documents.forEach(function (doc) {
+                        if (doc._type === type) {
+                            if (!settings.filter ||
+                                aiq._doesSourceMatchPattern(doc, settings.filter)) {
 
-                            // Document object has to be copied because our nasty spine
-                            // model implementation renames _id fields to id.
-                            docs.push(aiq._cloneObject(doc));
+                                // Document object has to be copied because our spine
+                                // model implementation renames _id fields to id.
+                                docs.push(aiq._cloneObject(doc));
+                            }
                         }
-                    }
+                    });
+                    settings.success(docs);
+                } catch (error) {
+                    aiq._failWithMessage(settings.error, error);
+                }
+            }
+        };
+
+        // aiq.storage.getAttachment(id, name, settings)
+        aiq.storage.getAttachment = function (id, name, settings) {
+            settings = settings || {};
+
+            if (typeof id !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid identifier');
+            } else if (typeof name !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid name');
+            } else if (typeof settings.success === 'function') {
+                // Let's make sure that the document exists
+                aiq.storage.getDocument(id, {
+                    success: function () {
+                        var attachments = aiq.storage._attachments[id] || {};
+                        var attachment = attachments[name];
+                        if (attachment) {
+                            settings.success({
+                                name: name,
+                                contentType: attachment.contentType,
+                                resourceUrl: attachment.resourceUrl
+                            });
+                        } else {
+                            aiq._failWithMessage(settings.failure, 'Attachment not found');
+                        }
+                    },
+                    failure: settings.failure,
+                    error: settings.error
                 });
-                settings.success(docs);
+            }
+        };
+
+        // aiq.storage.getAttachments(id, [settings])
+        aiq.storage.getAttachments = function (id, settings) {
+            settings = settings || {};
+
+            if (typeof id !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid identifier');
+            } else if (typeof settings.success === 'function') {
+                // Let's make sure that the document exists
+                aiq.storage.getDocument(id, {
+                    success: function () {
+                        var attachments = aiq.storage._attachments[id] || {};
+                        var result = Object.keys(attachments).map(function (name) {
+                            return {
+                                name: name,
+                                contentType: attachments[name].contentType,
+                                resourceUrl: attachments[name].resourceUrl
+                            };
+                        });
+                        settings.success(result);
+                    },
+                    failure: settings.failure,
+                    error: settings.error
+                });
+            }
+        };
+
+        var storeAttachment = function (id, name, descriptor, callback) {
+            var attachments = aiq.storage._attachments[id] || {};
+            attachments[name] = {
+                contentType: descriptor.contentType,
+                resourceUrl: descriptor.resourceUrl
+            };
+            aiq.storage._attachments[id] = attachments;
+
+            if (typeof callback === 'function') {
+                callback({
+                    name: name,
+                    contentType: descriptor.contentType,
+                    resourceUrl: descriptor.resourceUrl
+                });
+            }
+        };
+
+        // aiq.storage.createAttachment(id, descriptor, [settings])
+        aiq.storage.createAttachment = function (id, descriptor, settings) {
+            settings = settings || {};
+
+            if (typeof id !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid identifier');
+            } else if (typeof descriptor !== 'object') {
+                aiq._failWithMessage(settings.failure, 'Invalid descriptor');
+            } else if (typeof descriptor.contentType !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid content type');
+            } else if (typeof descriptor.resourceUrl !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid resource URL');
+            } else {
+                aiq.storage.getDocument(id, {
+                    success: function () {
+                        aiq._testURL(descriptor.resourceUrl, function () {
+                            var attachments = aiq.storage._attachments[id] || {};
+                            var name = descriptor.name || id + '_' + Object.keys(attachments).length;
+                            if (attachments.hasOwnProperty(name)) {
+                                aiq._failWithMessage(settings.failure, 'Attachment already exists');
+                            } else {
+                                storeAttachment(id, name, descriptor, settings.success);
+                            }
+                        }, function () {
+                            aiq._failWithMessage(settings.failure, 'Resource not found');
+                        });
+                    },
+                    failure: settings.failure,
+                    error: settings.error
+                });
+            }
+        };
+
+        // aiq.storage.updateAttachment(id, name, descriptor, [settings])
+        aiq.storage.updateAttachment = function (id, name, descriptor, settings) {
+            settings = settings || {};
+
+            if (typeof id !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid identifier');
+            } else if (typeof name !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid name');
+            } else if (typeof descriptor !== 'object') {
+                aiq._failWithMessage(settings.failure, 'Invalid descriptor');
+            } else if (typeof descriptor.contentType !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid content type');
+            } else if (typeof descriptor.resourceUrl !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid resource URL');
+            } else {
+                aiq.storage.getDocument(id, {
+                    success: function () {
+                        var attachments = aiq.storage._attachments[id] || {};
+                        if (attachments.hasOwnProperty(name)) {
+                            aiq._testURL(descriptor.resourceUrl, function () {
+                                storeAttachment(id, name, descriptor, settings.success);
+                            }, function () {
+                                aiq._failWithMessage(settings.failure, 'Resource not found');
+                            });
+                        } else {
+                            aiq._failWithMessage(settings.failure, 'Attachment does not exist');
+                        }
+                    },
+                    failure: settings.failure,
+                    error: settings.error
+                });
+            }
+        };
+
+        // aiq.storage.deleteAttachment(id, name, [settings])
+        aiq.storage.deleteAttachment = function (id, name, settings) {
+            settings = settings || {};
+
+            if (typeof id !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid identifier');
+            } else if (typeof name !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid name');
+            } else {
+                // Let's make sure that the document exists
+                aiq.storage.getDocument(id, {
+                    success: function () {
+                        var attachments = aiq.storage._attachments[id] || {};
+                        if (attachments.hasOwnProperty(name)) {
+                            delete attachments[name];
+
+                            if (typeof settings.success === 'function') {
+                                settings.success();
+                            }
+                        } else {
+                            aiq._failWithMessage(settings.failure, 'Attachment not found');
+                        }
+                    },
+                    failure: settings.failure,
+                    error: settings.error
+                });
             }
         };
     }

@@ -58,9 +58,6 @@ aiq.Plugin.iScroll.Controller.sub({
     },
 
     reportDamage: function () {
-        // Destroying older image docs
-        TD.TrainDefectImage.cleanupOrphaned();
-
         // Resetting temporary Train Damage report
         TD.MyReport = { "trainNumber": TD.MyReport.trainNumber };
 

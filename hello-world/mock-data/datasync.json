@@ -1,24 +1,36 @@
-﻿{                                                                                                                                                  
-   "documents": [
-       {
-           "_type": "HW.Vehicle",
-           "name": "First vehicle"
-       },
-       {
-           "_type": "HW.Vehicle",
-           "name": "Second vehicle"
-       },
-       {
-           "_type": "HW.Vehicle",
-           "name": "Third vehicle"
-       },
-       {
-           "_type": "HW.Vehicle",
-           "name": "Fourth vehicle"
-       },
-       {
-           "_type": "HW.Vehicle",
-           "name": "Fifth vehicle"
-       }
-   ]
+﻿{
+	"documents":[
+		{
+			"_type": "TD.Train",
+			"number": "9001"
+		},
+		{
+			"_type": "TD.Train",
+			"number": "9002"
+		},
+		{
+			"_type": "TD.Train",
+			"number": "9003"
+		},
+		{
+			"_type": "TD.Train",
+			"number": "9004"
+		},
+		{
+			"_type": "TD.Train",
+			"number": "9005"
+		},
+		{
+			"_type": "TD.Train",
+			"number": "9006"
+		},
+		{
+			"_type": "TD.Train",
+			"number": "9007"
+		},
+		{
+			"_type": "TD.Train",
+			"number": "9008"
+		}
+	]
 }

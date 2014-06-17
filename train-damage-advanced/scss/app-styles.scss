@@ -10,7 +10,6 @@
 // Icons
 $blackArrow: url('assets/24x24_black_arrow.png');
 $camera: url('assets/white-camera.png');
-$pictures: url('assets/white-pictures.png');
 $pickTrain: url('assets/white-pick-train.png');
 $reportDamage: url('assets/white-report-damage.png');
 $curvedLeftArrow: url('assets/white-curved-left-arrow.png');
@@ -31,7 +30,6 @@ $fiftyPxListBgPressed: url('assets/50px-list-bg-pressed.png');
 #imageCache {
     background-image: $blackArrow,
         $camera,
-        $pictures,
         $pickTrain,
         $reportDamage,
         $curvedLeftArrow,
@@ -95,24 +93,6 @@ footer {
         &:active,
         &.active {
             background-image: $reportDamage, $actionBarBtnBgPressed;
-        }
-    }
-
-    > a[role="take-picture"] {
-        background-image: $camera, $actionBarBtnBgDefault;
-
-        &:active,
-        &.active {
-            background-image: $camera, $actionBarBtnBgPressed;
-        }
-    }
-
-    > a[role="pick-picture"] {
-        background-image: $pictures, $actionBarBtnBgDefault;
-
-        &:active,
-        &.active {
-            background-image: $pictures, $actionBarBtnBgPressed;
         }
     }
 }
@@ -501,113 +481,7 @@ $reportDamageHeaderHeight: 50px;
 }
 
 /****************************************************************************
-* Report damage view (step 4 - Pictures)
-*****************************************************************************/
-#frivilligt {
-    float: left;
-    color: $fontGreyColor;
-    padding: 1.1em 0 0 0.4em;
-}
-
-#pictures-article {
-    top: -aiq-em($reportDamageHeaderHeight, $baseline);
-
-    clear: both;
-
-    background-color: white;
-
-    &.modifying {
-        background-color: $selectedChildBg;
-
-        .picture-list {
-            background-color: $selectedChildBg;
-        }
-
-        .for-greyscale {
-            box-shadow: 0 0 5px 2px #aaa;
-        }
-    }
-
-    h2 {
-        margin: 1em 0 0 1.5em;
-
-        font-size: 0.9em;
-        font-weight: normal;
-        color: $fontGreyColor;
-    }
-}
-
-.picture-list {
-    @include -aiq-clearfix();
-
-    // Because the list may be bigger than 100%
-    background-color: white;
-
-    li {
-        width: 50%;
-        float: left;
-    }
-
-    a {
-        display: block;
-
-        margin: 1em auto;
-
-        // To include the padding in the width
-        @include box-sizing(border-box);
-    }
-
-    .for-greyscale {
-        background-color: black;
-
-        max-width: 90%;
-
-        // For images to be centered
-        margin: 0 auto;
-
-        border: 5px solid white;
-
-        // To include the border in the width
-        @include box-sizing(border-box);
-
-        box-shadow: 0 0 5px 2px $listItemBorderColor;
-
-        position: relative;
-    }
-
-    .picture {
-        width: 100%;
-    }
-
-    .selected-icon {
-        // Hidden by default
-        display: none;
-
-        position: absolute;
-        top: 50%;
-        left: 50%;
-
-        $size: -aiq-em(24px, $baseline);
-
-        width: $size;
-        height: $size;
-
-        margin-left: -($size/2);
-        margin-top: -($size/2);
-    }
-
-    .selected {
-        .picture {
-            opacity: 0.4;
-        }
-        .selected-icon {
-            display: block;
-        }
-    }
-}
-
-/****************************************************************************
-* Report damage view (step 5 - Summary)
+* Report damage view (step 4 - Summary)
 *****************************************************************************/
 #summary-header {
     border: none;
@@ -697,7 +571,7 @@ $reportDamageHeaderHeight: 50px;
 }
 
 /****************************************************************************
-* Report damage view (step 6 - Confirmation)
+* Report damage view (step 5 - Confirmation)
 *****************************************************************************/
 #confirmation-article {
     background-color: white;

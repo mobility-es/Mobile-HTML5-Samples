@@ -1,6 +1,6 @@
 #Hello World
 
-A basic single view application using the AIQ JS API. This Hello World application updates the title in the navigation bar once it's loaded.
+A basic single view application using the AIQ JS API. This Hello World application is the part of the [tutorial](https://appeariq.com). It shows how to retrieve and display a list of business documents.
 
 **Applies To**
 
@@ -9,6 +9,3 @@ A basic single view application using the AIQ JS API. This Hello World applicati
 **Dependencies**
 
 1. AIQ JS API v1.0
-
-## How to get started
-You can find a step-by-step tutorial on how to develop, debug, and deploy this application [here](https://docs.appeariq.com/display/AIQDEVBETA/Create+app+from+scratch%2C+using+AIQ+datasync).

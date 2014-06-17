@@ -20,19 +20,19 @@ var HW = HW || {};
     };
 
     HW._ready = function() {
-        $('#create').on('click', function() {
+        $("#create").on("click", function() {
             HW._addVehicleDoc("HW.Vehicle", {
                 "name": "A vehicle"
             });
         });
 
-        $('#update').on('click', function() {
+        $("#update").on("click", function() {
             HW._updateAllVehicleDocs("HW.Vehicle", {
                 name: "Updated name"
             });
         });
 
-        $('#delete').on('click', function() {
+        $("#delete").on("click", function() {
             HW._deleteLastVehicleDoc("HW.Vehicle");
         });
 
@@ -44,7 +44,7 @@ var HW = HW || {};
             success: function(doc) {
                 HW._renderVehicles();
             },
-            error: function(arg) {
+            failure: function(arg) {
                 HW._error(arg.message);
             }
         });
@@ -53,23 +53,21 @@ var HW = HW || {};
     HW._updateAllVehicleDocs = function(type, updatedFields) {
         aiq.storage.getDocuments(type, {
             success: function(docs) {
-                var updatedCount = 0;
-                docs.forEach(function(doc) {
+                $.when.apply($, docs.map(function(doc) {
+                    var defer = $.Deferred();
                     aiq.storage.updateDocument(doc._id, updatedFields, {
-                        success: function(doc) {
-                            updatedCount++;
-                            if (updatedCount === docs.length) {
-                                HW._renderVehicles();
-                            }
-                        },
-                        error: function(arg) {
-                            HW._error(arg.message);
-                        }
+                        success: defer.resolve,
+                        failure: defer.reject
                     });
+                    return defer.promise();
+                })).done(function() {
+                    HW._renderVehicles();
+                }).fail(function(error) {
+                    HW._error(error.message);
                 });
             },
 
-            error: function(arg) {
+            failure: function(arg) {
                 HW._error(arg.message);
             }
         });
@@ -82,20 +80,20 @@ var HW = HW || {};
                     success: function() {
                         HW._renderVehicles();
                     },
-                    error: function(arg) {
+                    failure: function(arg) {
                         HW._error(arg.message);
                     }
                 });
             },
 
-            error: function(arg) {
+            failure: function(arg) {
                 HW._error(arg.message);
             }
         });
     };
 
     HW._renderVehicles = function() {
-        var $list = $('#list');
+        var $list = $("#list");
         $list.empty();
 
         aiq.storage.getDocuments("HW.Vehicle", {
@@ -103,20 +101,20 @@ var HW = HW || {};
                 if (docs.length === 0) {
                     HW._error("No vehicle documents");
                 } else {
-                    $('#error').empty();
+                    $("#error").empty();
                     docs.forEach(function(doc) {
-                        $list.append('<li>' + doc.name + '</li>');
+                        $list.append("<li>" + doc.name + "</li>");
                     });
                 }
             },
 
-            error: function(arg) {
+            failure: function(arg) {
                 HW._error(arg.message);
             }
         });
     };
 
     HW._error = function(message) {
-        $('#error').html(message);
+        $("#error").html(message);
     }
 }());

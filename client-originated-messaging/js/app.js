@@ -20,17 +20,22 @@ var HW = HW || {};
     };
 
     HW._ready = function() {
-        aiq.messaging.bindMessageEvent("message-delivered", "traffic-messages", function(id) {
-            console.log("Message " + id + " has been delivered to destination 'traffic-messages'");
-
-            aiq.messaging.getMessageStatus(id, {
-                success: function(status) {
-                    HW._error("Message status body: " + status.body);
-                }
-            });
+        aiq.messaging.bind("message-delivered", {
+            destination: "traffic-messages",
+            callback: HW._onMessageDelivered
         });
 
-        $('form').on('submit', HW._onFormSubmit);
+        $("form").on("submit", HW._onFormSubmit);
+    };
+
+    HW._onMessageDelivered = function(id) {
+        console.log("Message " + id + " has been delivered to destination traffic-messages");
+
+        aiq.messaging.getMessageStatus(id, {
+            success: function(status) {
+                HW._error("Message status body: " + status.body);
+            }
+        });
     };
 
     HW._onFormSubmit = function(e) {
@@ -38,7 +43,7 @@ var HW = HW || {};
         e.preventDefault();
 
         aiq.messaging.sendMessage({
-            payload: {"message": $('textarea').val()},
+            payload: {"message": $("textarea").val()},
             destination: "traffic-messages"
         }, {
             success: function(status) {
@@ -52,6 +57,6 @@ var HW = HW || {};
     };
 
     HW._error = function(message) {
-        $('#error').html(message);
+        $("#error").html(message);
     };
 }());

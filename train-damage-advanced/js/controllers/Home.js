@@ -8,13 +8,6 @@ aiq.Plugin.iScroll.Controller.sub({
     },
 
     init: function () {
-        // Request for older images and destroy them, if any
-        TD.TrainDefectImage.bind("refresh", function () {
-            TD.TrainDefectImage.unbind("refresh");
-            TD.TrainDefectImage.cleanupOrphaned();
-        });
-        TD.TrainDefectImage.fetch();
-
         // Render view with no data
         this.renderTemplate({
             main: true

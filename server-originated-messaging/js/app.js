@@ -24,7 +24,7 @@ var HW = HW || {};
     };
 
     HW._renderTrafficMessages = function() {
-        var $list = $('#list');
+        var $list = $("#list");
         $list.empty();
 
         // Getting all server-originated messages of type "TrafficMessage"
@@ -33,33 +33,33 @@ var HW = HW || {};
                 if (messages.length === 0) {
                     HW._error("No traffic messages");
                 } else {
-                    $('#error').empty();
+                    $("#error").empty();
                     messages.forEach(function(message) {
-                        $list.append('<li data-id="' + message._id + '">' + JSON.stringify(message.payload) + '</li>');
+                        $list.append("<li data-id=" + message._id + ">" + JSON.stringify(message.payload) + "</li>");
                     });
 
                     HW._listenToClicksOnList();
                 }
             },
-            error: function(arg) {
+            failure: function(arg) {
                 HW._error("Error occurred: " + arg.message);
             }
         });
     };
 
     HW._listenToClicksOnList = function() {
-        $('li').on('click', HW._onMessageClick);
+        $("li").on("click", HW._onMessageClick);
     };
 
     HW._onMessageClick = function(e) {
         var $target = $(e.currentTarget);
-        var messageId = $target.data('id');
+        var messageId = $target.data("id");
 
         // Mark clicked server-originated message as read
         aiq.messaging.markMessageAsRead(
             messageId, {
                 success: function(message) {
-                    alert("Message '" + messageId + "' read.");
+                    alert("Message " + messageId + " read.");
                 },
                 failure: function() {
                     HW._error("Message does not exist");
@@ -71,6 +71,6 @@ var HW = HW || {};
     };
 
     HW._error = function(message) {
-        $('#error').html(message);
+        $("#error").html(message);
     };
 }());
