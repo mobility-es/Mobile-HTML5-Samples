@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="MobileOptimized" content="320">
+    <meta name="HandheldFriendly" content="True">
+    <title>Data Sync</title>
+    <script type="text/javascript" src="aiq/aiq-api.js"></script>
+    <script type="text/javascript" src="libs/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<h1>Data Sync</h1>
+
+<span>
+    <button id="create">Create</button>
+</span><!--
+--><span>
+    <button id="update">Update all</button>
+</span><!--
+--><span>
+    <button id="delete">Delete last</button>
+</span>
+
+<div id="error"></div>
+
+<ul id="list"></ul>
+
+<script>
+    document.addEventListener("aiq-ready", HW.onAiqReady, false);
+
+    $(function() {
+        HW.onJqueryReady();
+    });
+</script>
+</body>
+</html>

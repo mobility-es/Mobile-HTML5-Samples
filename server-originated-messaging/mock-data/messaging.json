@@ -1,0 +1,21 @@
+﻿[
+    {
+        "type": "TrafficMessage",
+        "activeFrom": 456323055000,
+        "timeToLive": 4114499055,
+        "read": false,
+        "payload": {
+            "message": "Cat sitting on train track",
+            "catColor": "#f720db"
+        }
+    },
+    {
+        "type": "TrafficMessage",
+        "activeFrom": 456323055000,
+        "timeToLive": 4114499055,
+        "read": false,
+        "payload": {
+            "message": "Unauthorized person went in tunnel 12"
+        }
+    }
+]

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Build apps" basedir="." default="build-zip">
+	<property name="src.dir" value="aiq" />
+
+	<dirset dir="." id="target.dirs">
+		<include name="*" />
+		<exclude name="${src.dir}" />
+	</dirset>
+
+    <target name="build-zip">
+        <zip destfile="mobile-html5-samples.zip">
+            <fileset dir=".">
+                <include name="**/*"/>
+				<exclude name="*.*"/>
+            </fileset>
+        </zip>
+    </target>
+</project>

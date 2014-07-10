@@ -1,0 +1,8 @@
+﻿[{
+    "payload": {"message": ".*"},
+    "statuses": [{
+        "state": "delivered",
+        "delay": 500, 
+		"body": "Traffic message delivered"
+    }]
+}]
